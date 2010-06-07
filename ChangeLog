@@ -1,0 +1,281 @@
+2008-07-12  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.2.1 released!
+
+	* ライセンスファイルを同梱
+
+2008-03-30  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.2.0 released!
+
+	* Bumped version number to 1.2.0
+
+	* credential => basic-auth
+
+	* (xhr-credential): 引数が nil でも常に credential を作るようにした。
+
+	* credential.l を require
+
+	* Basic 認証用に credential 引数を追加。
+
+	* set-buffer しないようにした。
+
+2008-03-09  MIYAMUKO Katsuyuki
+
+	* (xhr-trace): should setup temp buffer
+
+2008-03-01  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.1.1 released!
+
+	* デバッグ用の関数を追加。xml-http-request.l で require はしない。
+
+	* (url-encode-alist, url-encode-key-value, url-encode-value):
+	  literal-chars と encoding を optional にした。
+
+	* (add-query-string): add-query-params から分離。
+
+	* (url-join-params, url-join-key-value): 関数に外だし
+
+	* - (add-query-params): add-query-string から rename
+	  - (url-encode-xxx): separator を & きめうち
+
+	* - (add-query-string): uri に encode した query string を追加する。
+	  - (xhr-do-request): query 引数を取るようにした。
+	  - その他リクエストメソッドでも同上
+
+	* - (url-encode): rename from www-url-encode.
+	    add literal-chars keyword argument to specify si:www-url-encode 3rd argument
+	  (url-encode-alist): rename from encode.
+	  (url-encode-key-value): rename from encode-key-value.
+	  (url-encode-value): rename from encode-value.
+
+	* - Msxml2.XMLHTTP.4.0 以上だと post がまともに動かないので
+	    progid list からは削除
+	  - progid は keyword 引数で指定してもらうことにするので、
+	    progid-list を定数にした。
+
+2008-02-23  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.1.0 released!
+
+	* :nomsg 引数を追加。
+
+	* - デバッグ用に ole メソッドを呼ぶ前に hook を実行
+
+	* - (*xhr-client-progid-list*): クライアント xmlhttp の progid
+	  - (*xhr-server-progid-list*): サーバ xmlhttp の progid
+	  - (create-xmlhttp): request.l から ole.l に移動, progid, server-p も保持するようにした。
+	  - (create-xmlhttp): oledata, progid, server-p のアクセッサを定義
+	  - (xhr-future): future.l から type.l に移動
+
+	* - (xhr-future-value): no-redraw オプションを追加。sit-for の引数に指定
+	  - (xhr-future-value): sleep オプションを追加。non-nil なら sleep-for を使う
+
+2008-02-11  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.0.1 released!
+
+	* (http-get, http-post): 非同期送信時は oledata を返す。
+
+	* - (xxx-async): 戻り値に cancel-ticket を返すようにした
+	  - (xhr-future): http-transport を include
+	  - (xhr-abort): complete なら何もせず nil を返す、キャンセルしたなら t を返す
+	  - (xhr-ready-state): export
+	  - readystate =>> ready-state
+
+	* key 関数の中でエラーが発生した場合、
+	  future は xhr-future-value した時点でエラーを通知。
+
+	* fixed typo in README.
+
+	* xml-http-request 1.0.0 released!
+
+2008-02-10  MIYAMUKO Katsuyuki
+
+	* (xhr-abort): future を指定できるようにした。
+
+	* (struct-instance-of): xxx-p を使えばよかった。。。
+
+	* (xhr-response-values): xml は返さない。
+
+	* - (fetch): oledata が直接指定されることはないかな？
+	  - 互換層は %<method> を直接利用する。
+
+	* (dom-list->sexp): extract function.
+
+	* 互換層で http-response に対応。
+
+	* - (alias): symbol-function に #'foo をセットすると foo が変わったら再評価しなければいけないので、
+	    wrapper 関数を生成するマクロを定義
+
+	* (fetch): oledata が直接渡されても動くようにした。
+
+	* - 戻り値の値を取得する関数を :key で指定できるようにした。
+	  - future の filter も key に統合。
+
+	* ole メソッドのラッパーのは前を <method-name>0 から %<method-name> にした。
+
+	* transport.l => ole.l
+
+	* - response オブジェクトを返すようにした。
+	  - xhr-request => http-request
+
+	* macros.l を require
+
+	* マクロは macros.l に分離。
+
+	* (type-error): type-error を投げるマクロ。
+
+	* update copyright year
+
+	* Bumped version number to 1.0.0
+
+	* (xhr-abort): req => transport.
+
+	* - xhr-request 構造体
+	  - transport.l
+
+	* - (dump-hash): dump hash utility for debug
+	  - (rfc1123-format-date): rename from rfc822.
+	  - (rfc1123-format-date): universal time はローカルタイムとして GMT に変換するようにした。
+
+2008-02-09  MIYAMUKO Katsuyuki
+
+	* - 例外を整理
+	  - url が長すぎる場合は xhr-too-long-url-error
+
+	* (process-event-handler-form): body の最初の式しか実行されてなかった
+
+	* (xhr-response-values): rename from xhr-result-list
+	  (xhr-response-values): list じゃなくて多値で返すようにした。同期 API は多値なのに future-value は多値じゃなかった。
+
+	* (www-url-encode): to-alist するようにした。
+	  (xhr-do-request): デバッグフレンドリーにした。
+
+	* (xhr-request-async): onsuccess, onfailure, oncomplete を引数に取るようにした。
+
+	* - (set-alist!): set-alist => set-alist!
+	  - (set-alist!): alist が nil の場合戻り値が不正
+	  - (update-alist!): set-alist! の引数がいっぱいバージョン
+
+	* (set-alist): 既にキーが存在すれば上書きする acons
+
+	* ヘッダ関連を header.l に移動。
+
+	* - (singlep '(1)) => t
+	  - (doublep '(1 2)) => t
+	  - (dotp '(1 . 2)) => t
+	  - (to-alist '(:foo 1 :bar 2 '(:baz . 3))) => '((:foo . 1) (:bar . 2) (:baz . 3))
+
+	* bumped version number to 1.0.0
+
+	* require を eval-when した。
+
+	* requirest.l, response.l を load するだけのファイルを登録。
+
+	* api.l => response.l
+
+	* xhr-abort を request.l に移動
+
+	* xhr-send など request 系のメソッドは全部 request.l に移動。
+
+	* http メソッドの定義は request.l で行う
+
+	* - (define-xhr-request-method):
+	    - define-request から変更
+	    - exports で export するか指定
+	    - has-body => body
+
+	* - request 関連を request.l に移動
+	  - get, head, post, options を定義。macro 化。
+
+	* (symbol-join): symbol を join する。
+
+	* (process-event-handler-form): 引数チェックを追加。
+
+	* xhr-do-request が xhr-request-internal に丸投げするだけで意味がなかったので、
+	  xhr-request-internal を xhr-do-request に変更。
+
+	* future 構造体に uri を追加。
+
+	* xhr-future-values => xhr-future-value.
+
+	* - (create-future-and-complete-handler):
+	    - 多値を list にして保存。
+	    - completed-p の設定は最後に
+	  - (xhr-future-values): timeout が nil の場合 timeout なし
+
+	* eval-when はたぶん不要。
+
+	* msxml を nickname に追加。
+
+2008-02-03  MIYAMUKO Katsuyuki
+
+	* (xhr-future-value): timeout を実装。
+
+	* - get, post 時に message を表示。
+
+	* (xhr-future-values): interval のデフォルトを 0.3s
+
+	* export xhr-future-completed-p, xhr-future-p
+
+	* future 取得関数を指定できるようにした。
+
+	* future filter の戻り値が atom の場合 values-list で何も帰らなかった問題を修正。
+
+	* (rfc822-format-date, since): if-modified-since を作る関数。
+
+	* if-modified-since を引数に取るようにした。
+
+	* fixed typo.
+
+	* (xhr-request-future): fixed typo.
+
+	* fixed typo...
+
+	* 引数の順番が違う
+
+	* だいたい完成。
+
+	* *scrach* で評価したときに html が出るのがいやなので クロージャで wrap
+
+	* (www-url-encode): バグフィックス
+
+	* require compat.l
+
+2008-02-02  MIYAMUKO Katsuyuki
+
+	* 互換層をとりあえず実装
+
+	* とりあえず実装。
+
+	* ディレクトリ整理
+
+2006-06-26  MIYAMUKO Katsuyuki
+
+	* (get): http-get -> get. http-get は obsolete.
+
+	* (post): http-post -> post. http-post は obsolete.
+
+	* (request): body に list を渡されたらエンコードするようにした。
+
+	* (www-url-encode): '(("name" . "value") ("n2" "v2")) => name=value&n2=v2.
+
+	* (get, post): 同期 API のときも transport を返すようにした。
+
+	* (response-xml): XML を S式で返すようにした。
+
+	* (response-text): 可能なら responseXml の XML プロパティを先に取得するようにした。
+	文字化けしないかもしれないから。
+
+2006-06-14  MIYAMUKO Katsuyuki
+
+	* バージョンを 0.2 にした
+
+	* ドキュメント追加。
+
+2006-06-13  MIYAMUKO Katsuyuki
+
+	* xml-http-request 0.1 リリース
+

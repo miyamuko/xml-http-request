@@ -1,0 +1,25 @@
+package: xml-http-request
+version: 1.2.1
+
+sources:
+  include:
+    - site-lisp/xml-http-request/**/*.l
+  exclude:
+    - site-lisp/xml-http-request/**/tests/*.l
+    - site-lisp/xml-http-request/**/examples/*.l
+
+document:
+  - site-lisp/xml-http-request/docs/README.rd
+
+files:
+  include:
+    - site-lisp/**/*.l
+    - site-lisp/**/*.lc
+    - site-lisp/xml-http-request/lib/*.dll
+    - site-lisp/xml-http-request/examples/**/*.*
+    - site-lisp/xml-http-request/docs/**/*
+    - site-lisp/xml-http-request/docs/**/*.*
+    - site-lisp/xml-http-request/src/**/*.*
+  exclude:
+    - site-lisp/xml-http-request-scratch.l
+    - site-lisp/xml-http-request/tests/*.*

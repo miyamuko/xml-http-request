@@ -4,6 +4,12 @@
 
 	* ライセンスファイルを同梱
 
+2008-04-19  MIYAMUKO Katsuyuki
+
+	* - (ole-collection->list): rename from ole-collection-to-list
+	  - (ole-collection->list): nreverse にした。
+	  - シンボルをキーワードにした
+
 2008-03-30  MIYAMUKO Katsuyuki
 
 	* xml-http-request 1.2.0 released!

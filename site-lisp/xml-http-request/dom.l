@@ -32,41 +32,40 @@
 (defconstant +notation-node+          12)
 
 (defun dom->sexp (xml)
-  (let ((type (ole-getprop xml 'NodeType)))
+  (let ((type (ole-getprop xml :NodeType)))
     (cond ((= type +document-node+)
-           (dom-list->sexp xml 'ChildNodes))
+           (dom-list->sexp xml :ChildNodes))
           ((= type +element-node+)
-           (nconc (list (ole-getprop xml 'NodeName)
-                        (dom-list->sexp xml 'Attributes))
-                  (dom-list->sexp xml 'ChildNodes)))
+           (nconc (list (ole-getprop xml :NodeName)
+                        (dom-list->sexp xml :Attributes))
+                  (dom-list->sexp xml :ChildNodes)))
           ((= type +attribute-node+)
-           (cons (ole-getprop xml 'Name)
-                 (ole-getprop xml 'Value)))
+           (cons (ole-getprop xml :Name)
+                 (ole-getprop xml :Value)))
           ((or (= type +text-node+)
                (= type +cdata-section-node+)
                (= type +entity-node+))
-           (ole-getprop xml 'NodeValue))
+           (ole-getprop xml :NodeValue))
 ;; xml-parse-modoki ŒÝŠ·‚É‚·‚é‚½‚ß‚Æ‚è‚ ‚¦‚¸–³Ž‹
 ;          ((= type +processing-instruction+)
-;           (list (ole-getprop xml 'NodeName)
-;                 (ole-getprop xml 'NodeValue)))
+;           (list (ole-getprop xml :NodeName)
+;                 (ole-getprop xml :NodeValue)))
           (t
            ;; ignore
            nil))))
 
-(defun compact (lst)
-  (remove-if #'null lst))
-
 (defun dom-list->sexp (oledata prop)
-  (compact (mapcar #'dom->sexp (ole-collection-to-list (ole-getprop oledata prop)))))
+  (remove-if #'null
+             (mapcar #'dom->sexp
+                     (ole-collection->list (ole-getprop oledata prop)))))
 
-(defun ole-collection-to-list (collection)
+(defun ole-collection->list (collection)
   (let ((result)
-        (len (ole-getprop collection 'length)))
+        (len (ole-getprop collection :Length)))
     (do ((i 0 (1+ i)))
         ((not (< i len)))
-      (push (ole-method collection 'item i) result))
-    (reverse result)))
+      (push (ole-method collection :Item i) result))
+    (nreverse result)))
 
 
 (provide "xml-http-request/dom")

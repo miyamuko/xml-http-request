@@ -2,13 +2,13 @@
 
 	* xml-http-request 1.2.1 released!
 
-	* ƒ‰ƒCƒZƒ“ƒXƒtƒ@ƒCƒ‹‚ğ“¯«
+	* ãƒ©ã‚¤ã‚»ãƒ³ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’åŒæ¢±
 
 2008-04-19  MIYAMUKO Katsuyuki
 
 	* - (ole-collection->list): rename from ole-collection-to-list
-	  - (ole-collection->list): nreverse ‚É‚µ‚½B
-	  - ƒVƒ“ƒ{ƒ‹‚ğƒL[ƒ[ƒh‚É‚µ‚½
+	  - (ole-collection->list): nreverse ã«ã—ãŸã€‚
+	  - ã‚·ãƒ³ãƒœãƒ«ã‚’ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã«ã—ãŸ
 
 2008-03-30  MIYAMUKO Katsuyuki
 
@@ -18,13 +18,13 @@
 
 	* credential => basic-auth
 
-	* (xhr-credential): ˆø”‚ª nil ‚Å‚àí‚É credential ‚ğì‚é‚æ‚¤‚É‚µ‚½B
+	* (xhr-credential): å¼•æ•°ãŒ nil ã§ã‚‚å¸¸ã« credential ã‚’ä½œã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
-	* credential.l ‚ğ require
+	* credential.l ã‚’ require
 
-	* Basic ”FØ—p‚É credential ˆø”‚ğ’Ç‰ÁB
+	* Basic èªè¨¼ç”¨ã« credential å¼•æ•°ã‚’è¿½åŠ ã€‚
 
-	* set-buffer ‚µ‚È‚¢‚æ‚¤‚É‚µ‚½B
+	* set-buffer ã—ãªã„ã‚ˆã†ã«ã—ãŸã€‚
 
 2008-03-09  MIYAMUKO Katsuyuki
 
@@ -34,21 +34,21 @@
 
 	* xml-http-request 1.1.1 released!
 
-	* ƒfƒoƒbƒO—p‚ÌŠÖ”‚ğ’Ç‰ÁBxml-http-request.l ‚Å require ‚Í‚µ‚È‚¢B
+	* ãƒ‡ãƒãƒƒã‚°ç”¨ã®é–¢æ•°ã‚’è¿½åŠ ã€‚xml-http-request.l ã§ require ã¯ã—ãªã„ã€‚
 
 	* (url-encode-alist, url-encode-key-value, url-encode-value):
-	  literal-chars ‚Æ encoding ‚ğ optional ‚É‚µ‚½B
+	  literal-chars ã¨ encoding ã‚’ optional ã«ã—ãŸã€‚
 
-	* (add-query-string): add-query-params ‚©‚ç•ª—£B
+	* (add-query-string): add-query-params ã‹ã‚‰åˆ†é›¢ã€‚
 
-	* (url-join-params, url-join-key-value): ŠÖ”‚ÉŠO‚¾‚µ
+	* (url-join-params, url-join-key-value): é–¢æ•°ã«å¤–ã ã—
 
-	* - (add-query-params): add-query-string ‚©‚ç rename
-	  - (url-encode-xxx): separator ‚ğ & ‚«‚ß‚¤‚¿
+	* - (add-query-params): add-query-string ã‹ã‚‰ rename
+	  - (url-encode-xxx): separator ã‚’ & ãã‚ã†ã¡
 
-	* - (add-query-string): uri ‚É encode ‚µ‚½ query string ‚ğ’Ç‰Á‚·‚éB
-	  - (xhr-do-request): query ˆø”‚ğæ‚é‚æ‚¤‚É‚µ‚½B
-	  - ‚»‚Ì‘¼ƒŠƒNƒGƒXƒgƒƒ\ƒbƒh‚Å‚à“¯ã
+	* - (add-query-string): uri ã« encode ã—ãŸ query string ã‚’è¿½åŠ ã™ã‚‹ã€‚
+	  - (xhr-do-request): query å¼•æ•°ã‚’å–ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+	  - ãã®ä»–ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ¡ã‚½ãƒƒãƒ‰ã§ã‚‚åŒä¸Š
 
 	* - (url-encode): rename from www-url-encode.
 	    add literal-chars keyword argument to specify si:www-url-encode 3rd argument
@@ -56,42 +56,42 @@
 	  (url-encode-key-value): rename from encode-key-value.
 	  (url-encode-value): rename from encode-value.
 
-	* - Msxml2.XMLHTTP.4.0 ˆÈã‚¾‚Æ post ‚ª‚Ü‚Æ‚à‚É“®‚©‚È‚¢‚Ì‚Å
-	    progid list ‚©‚ç‚Ííœ
-	  - progid ‚Í keyword ˆø”‚Åw’è‚µ‚Ä‚à‚ç‚¤‚±‚Æ‚É‚·‚é‚Ì‚ÅA
-	    progid-list ‚ğ’è”‚É‚µ‚½B
+	* - Msxml2.XMLHTTP.4.0 ä»¥ä¸Šã ã¨ post ãŒã¾ã¨ã‚‚ã«å‹•ã‹ãªã„ã®ã§
+	    progid list ã‹ã‚‰ã¯å‰Šé™¤
+	  - progid ã¯ keyword å¼•æ•°ã§æŒ‡å®šã—ã¦ã‚‚ã‚‰ã†ã“ã¨ã«ã™ã‚‹ã®ã§ã€
+	    progid-list ã‚’å®šæ•°ã«ã—ãŸã€‚
 
 2008-02-23  MIYAMUKO Katsuyuki
 
 	* xml-http-request 1.1.0 released!
 
-	* :nomsg ˆø”‚ğ’Ç‰ÁB
+	* :nomsg å¼•æ•°ã‚’è¿½åŠ ã€‚
 
-	* - ƒfƒoƒbƒO—p‚É ole ƒƒ\ƒbƒh‚ğŒÄ‚Ô‘O‚É hook ‚ğÀs
+	* - ãƒ‡ãƒãƒƒã‚°ç”¨ã« ole ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã¶å‰ã« hook ã‚’å®Ÿè¡Œ
 
-	* - (*xhr-client-progid-list*): ƒNƒ‰ƒCƒAƒ“ƒg xmlhttp ‚Ì progid
-	  - (*xhr-server-progid-list*): ƒT[ƒo xmlhttp ‚Ì progid
-	  - (create-xmlhttp): request.l ‚©‚ç ole.l ‚ÉˆÚ“®, progid, server-p ‚à•Û‚·‚é‚æ‚¤‚É‚µ‚½B
-	  - (create-xmlhttp): oledata, progid, server-p ‚ÌƒAƒNƒZƒbƒT‚ğ’è‹`
-	  - (xhr-future): future.l ‚©‚ç type.l ‚ÉˆÚ“®
+	* - (*xhr-client-progid-list*): ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ xmlhttp ã® progid
+	  - (*xhr-server-progid-list*): ã‚µãƒ¼ãƒ xmlhttp ã® progid
+	  - (create-xmlhttp): request.l ã‹ã‚‰ ole.l ã«ç§»å‹•, progid, server-p ã‚‚ä¿æŒã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+	  - (create-xmlhttp): oledata, progid, server-p ã®ã‚¢ã‚¯ã‚»ãƒƒã‚µã‚’å®šç¾©
+	  - (xhr-future): future.l ã‹ã‚‰ type.l ã«ç§»å‹•
 
-	* - (xhr-future-value): no-redraw ƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰ÁBsit-for ‚Ìˆø”‚Éw’è
-	  - (xhr-future-value): sleep ƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰ÁBnon-nil ‚È‚ç sleep-for ‚ğg‚¤
+	* - (xhr-future-value): no-redraw ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ ã€‚sit-for ã®å¼•æ•°ã«æŒ‡å®š
+	  - (xhr-future-value): sleep ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¿½åŠ ã€‚non-nil ãªã‚‰ sleep-for ã‚’ä½¿ã†
 
 2008-02-11  MIYAMUKO Katsuyuki
 
 	* xml-http-request 1.0.1 released!
 
-	* (http-get, http-post): ”ñ“¯Šú‘—M‚Í oledata ‚ğ•Ô‚·B
+	* (http-get, http-post): éåŒæœŸé€ä¿¡æ™‚ã¯ oledata ã‚’è¿”ã™ã€‚
 
-	* - (xxx-async): –ß‚è’l‚É cancel-ticket ‚ğ•Ô‚·‚æ‚¤‚É‚µ‚½
-	  - (xhr-future): http-transport ‚ğ include
-	  - (xhr-abort): complete ‚È‚ç‰½‚à‚¹‚¸ nil ‚ğ•Ô‚·AƒLƒƒƒ“ƒZƒ‹‚µ‚½‚È‚ç t ‚ğ•Ô‚·
+	* - (xxx-async): æˆ»ã‚Šå€¤ã« cancel-ticket ã‚’è¿”ã™ã‚ˆã†ã«ã—ãŸ
+	  - (xhr-future): http-transport ã‚’ include
+	  - (xhr-abort): complete ãªã‚‰ä½•ã‚‚ã›ãš nil ã‚’è¿”ã™ã€ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸãªã‚‰ t ã‚’è¿”ã™
 	  - (xhr-ready-state): export
 	  - readystate =>> ready-state
 
-	* key ŠÖ”‚Ì’†‚ÅƒGƒ‰[‚ª”­¶‚µ‚½ê‡A
-	  future ‚Í xhr-future-value ‚µ‚½“_‚ÅƒGƒ‰[‚ğ’Ê’mB
+	* key é–¢æ•°ã®ä¸­ã§ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã€
+	  future ã¯ xhr-future-value ã—ãŸæ™‚ç‚¹ã§ã‚¨ãƒ©ãƒ¼ã‚’é€šçŸ¥ã€‚
 
 	* fixed typo in README.
 
@@ -99,39 +99,39 @@
 
 2008-02-10  MIYAMUKO Katsuyuki
 
-	* (xhr-abort): future ‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+	* (xhr-abort): future ã‚’æŒ‡å®šã§ãã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
-	* (struct-instance-of): xxx-p ‚ğg‚¦‚Î‚æ‚©‚Á‚½BBB
+	* (struct-instance-of): xxx-p ã‚’ä½¿ãˆã°ã‚ˆã‹ã£ãŸã€‚ã€‚ã€‚
 
-	* (xhr-response-values): xml ‚Í•Ô‚³‚È‚¢B
+	* (xhr-response-values): xml ã¯è¿”ã•ãªã„ã€‚
 
-	* - (fetch): oledata ‚ª’¼Úw’è‚³‚ê‚é‚±‚Æ‚Í‚È‚¢‚©‚ÈH
-	  - ŒİŠ·‘w‚Í %<method> ‚ğ’¼Ú—˜—p‚·‚éB
+	* - (fetch): oledata ãŒç›´æ¥æŒ‡å®šã•ã‚Œã‚‹ã“ã¨ã¯ãªã„ã‹ãªï¼Ÿ
+	  - äº’æ›å±¤ã¯ %<method> ã‚’ç›´æ¥åˆ©ç”¨ã™ã‚‹ã€‚
 
 	* (dom-list->sexp): extract function.
 
-	* ŒİŠ·‘w‚Å http-response ‚É‘Î‰B
+	* äº’æ›å±¤ã§ http-response ã«å¯¾å¿œã€‚
 
-	* - (alias): symbol-function ‚É #'foo ‚ğƒZƒbƒg‚·‚é‚Æ foo ‚ª•Ï‚í‚Á‚½‚çÄ•]‰¿‚µ‚È‚¯‚ê‚Î‚¢‚¯‚È‚¢‚Ì‚ÅA
-	    wrapper ŠÖ”‚ğ¶¬‚·‚éƒ}ƒNƒ‚ğ’è‹`
+	* - (alias): symbol-function ã« #'foo ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã¨ foo ãŒå¤‰ã‚ã£ãŸã‚‰å†è©•ä¾¡ã—ãªã‘ã‚Œã°ã„ã‘ãªã„ã®ã§ã€
+	    wrapper é–¢æ•°ã‚’ç”Ÿæˆã™ã‚‹ãƒã‚¯ãƒ­ã‚’å®šç¾©
 
-	* (fetch): oledata ‚ª’¼Ú“n‚³‚ê‚Ä‚à“®‚­‚æ‚¤‚É‚µ‚½B
+	* (fetch): oledata ãŒç›´æ¥æ¸¡ã•ã‚Œã¦ã‚‚å‹•ãã‚ˆã†ã«ã—ãŸã€‚
 
-	* - –ß‚è’l‚Ì’l‚ğæ“¾‚·‚éŠÖ”‚ğ :key ‚Åw’è‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
-	  - future ‚Ì filter ‚à key ‚É“‡B
+	* - æˆ»ã‚Šå€¤ã®å€¤ã‚’å–å¾—ã™ã‚‹é–¢æ•°ã‚’ :key ã§æŒ‡å®šã§ãã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+	  - future ã® filter ã‚‚ key ã«çµ±åˆã€‚
 
-	* ole ƒƒ\ƒbƒh‚Ìƒ‰ƒbƒp[‚Ì‚Í‘O‚ğ <method-name>0 ‚©‚ç %<method-name> ‚É‚µ‚½B
+	* ole ãƒ¡ã‚½ãƒƒãƒ‰ã®ãƒ©ãƒƒãƒ‘ãƒ¼ã®ã¯å‰ã‚’ <method-name>0 ã‹ã‚‰ %<method-name> ã«ã—ãŸã€‚
 
 	* transport.l => ole.l
 
-	* - response ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·‚æ‚¤‚É‚µ‚½B
+	* - response ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿”ã™ã‚ˆã†ã«ã—ãŸã€‚
 	  - xhr-request => http-request
 
-	* macros.l ‚ğ require
+	* macros.l ã‚’ require
 
-	* ƒ}ƒNƒ‚Í macros.l ‚É•ª—£B
+	* ãƒã‚¯ãƒ­ã¯ macros.l ã«åˆ†é›¢ã€‚
 
-	* (type-error): type-error ‚ğ“Š‚°‚éƒ}ƒNƒB
+	* (type-error): type-error ã‚’æŠ•ã’ã‚‹ãƒã‚¯ãƒ­ã€‚
 
 	* update copyright year
 
@@ -139,35 +139,35 @@
 
 	* (xhr-abort): req => transport.
 
-	* - xhr-request \‘¢‘Ì
+	* - xhr-request æ§‹é€ ä½“
 	  - transport.l
 
 	* - (dump-hash): dump hash utility for debug
 	  - (rfc1123-format-date): rename from rfc822.
-	  - (rfc1123-format-date): universal time ‚Íƒ[ƒJƒ‹ƒ^ƒCƒ€‚Æ‚µ‚Ä GMT ‚É•ÏŠ·‚·‚é‚æ‚¤‚É‚µ‚½B
+	  - (rfc1123-format-date): universal time ã¯ãƒ­ãƒ¼ã‚«ãƒ«ã‚¿ã‚¤ãƒ ã¨ã—ã¦ GMT ã«å¤‰æ›ã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
 2008-02-09  MIYAMUKO Katsuyuki
 
-	* - —áŠO‚ğ®—
-	  - url ‚ª’·‚·‚¬‚éê‡‚Í xhr-too-long-url-error
+	* - ä¾‹å¤–ã‚’æ•´ç†
+	  - url ãŒé•·ã™ãã‚‹å ´åˆã¯ xhr-too-long-url-error
 
-	* (process-event-handler-form): body ‚ÌÅ‰‚Ì®‚µ‚©Às‚³‚ê‚Ä‚È‚©‚Á‚½
+	* (process-event-handler-form): body ã®æœ€åˆã®å¼ã—ã‹å®Ÿè¡Œã•ã‚Œã¦ãªã‹ã£ãŸ
 
 	* (xhr-response-values): rename from xhr-result-list
-	  (xhr-response-values): list ‚¶‚á‚È‚­‚Ä‘½’l‚Å•Ô‚·‚æ‚¤‚É‚µ‚½B“¯Šú API ‚Í‘½’l‚È‚Ì‚É future-value ‚Í‘½’l‚¶‚á‚È‚©‚Á‚½B
+	  (xhr-response-values): list ã˜ã‚ƒãªãã¦å¤šå€¤ã§è¿”ã™ã‚ˆã†ã«ã—ãŸã€‚åŒæœŸ API ã¯å¤šå€¤ãªã®ã« future-value ã¯å¤šå€¤ã˜ã‚ƒãªã‹ã£ãŸã€‚
 
-	* (www-url-encode): to-alist ‚·‚é‚æ‚¤‚É‚µ‚½B
-	  (xhr-do-request): ƒfƒoƒbƒOƒtƒŒƒ“ƒhƒŠ[‚É‚µ‚½B
+	* (www-url-encode): to-alist ã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+	  (xhr-do-request): ãƒ‡ãƒãƒƒã‚°ãƒ•ãƒ¬ãƒ³ãƒ‰ãƒªãƒ¼ã«ã—ãŸã€‚
 
-	* (xhr-request-async): onsuccess, onfailure, oncomplete ‚ğˆø”‚Éæ‚é‚æ‚¤‚É‚µ‚½B
+	* (xhr-request-async): onsuccess, onfailure, oncomplete ã‚’å¼•æ•°ã«å–ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
 	* - (set-alist!): set-alist => set-alist!
-	  - (set-alist!): alist ‚ª nil ‚Ìê‡–ß‚è’l‚ª•s³
-	  - (update-alist!): set-alist! ‚Ìˆø”‚ª‚¢‚Á‚Ï‚¢ƒo[ƒWƒ‡ƒ“
+	  - (set-alist!): alist ãŒ nil ã®å ´åˆæˆ»ã‚Šå€¤ãŒä¸æ­£
+	  - (update-alist!): set-alist! ã®å¼•æ•°ãŒã„ã£ã±ã„ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 
-	* (set-alist): Šù‚ÉƒL[‚ª‘¶İ‚·‚ê‚Îã‘‚«‚·‚é acons
+	* (set-alist): æ—¢ã«ã‚­ãƒ¼ãŒå­˜åœ¨ã™ã‚Œã°ä¸Šæ›¸ãã™ã‚‹ acons
 
-	* ƒwƒbƒ_ŠÖ˜A‚ğ header.l ‚ÉˆÚ“®B
+	* ãƒ˜ãƒƒãƒ€é–¢é€£ã‚’ header.l ã«ç§»å‹•ã€‚
 
 	* - (singlep '(1)) => t
 	  - (doublep '(1 2)) => t
@@ -176,63 +176,63 @@
 
 	* bumped version number to 1.0.0
 
-	* require ‚ğ eval-when ‚µ‚½B
+	* require ã‚’ eval-when ã—ãŸã€‚
 
-	* requirest.l, response.l ‚ğ load ‚·‚é‚¾‚¯‚Ìƒtƒ@ƒCƒ‹‚ğ“o˜^B
+	* requirest.l, response.l ã‚’ load ã™ã‚‹ã ã‘ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç™»éŒ²ã€‚
 
 	* api.l => response.l
 
-	* xhr-abort ‚ğ request.l ‚ÉˆÚ“®
+	* xhr-abort ã‚’ request.l ã«ç§»å‹•
 
-	* xhr-send ‚È‚Ç request Œn‚Ìƒƒ\ƒbƒh‚Í‘S•” request.l ‚ÉˆÚ“®B
+	* xhr-send ãªã© request ç³»ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯å…¨éƒ¨ request.l ã«ç§»å‹•ã€‚
 
-	* http ƒƒ\ƒbƒh‚Ì’è‹`‚Í request.l ‚Ås‚¤
+	* http ãƒ¡ã‚½ãƒƒãƒ‰ã®å®šç¾©ã¯ request.l ã§è¡Œã†
 
 	* - (define-xhr-request-method):
-	    - define-request ‚©‚ç•ÏX
-	    - exports ‚Å export ‚·‚é‚©w’è
+	    - define-request ã‹ã‚‰å¤‰æ›´
+	    - exports ã§ export ã™ã‚‹ã‹æŒ‡å®š
 	    - has-body => body
 
-	* - request ŠÖ˜A‚ğ request.l ‚ÉˆÚ“®
-	  - get, head, post, options ‚ğ’è‹`Bmacro ‰»B
+	* - request é–¢é€£ã‚’ request.l ã«ç§»å‹•
+	  - get, head, post, options ã‚’å®šç¾©ã€‚macro åŒ–ã€‚
 
-	* (symbol-join): symbol ‚ğ join ‚·‚éB
+	* (symbol-join): symbol ã‚’ join ã™ã‚‹ã€‚
 
-	* (process-event-handler-form): ˆø”ƒ`ƒFƒbƒN‚ğ’Ç‰ÁB
+	* (process-event-handler-form): å¼•æ•°ãƒã‚§ãƒƒã‚¯ã‚’è¿½åŠ ã€‚
 
-	* xhr-do-request ‚ª xhr-request-internal ‚ÉŠÛ“Š‚°‚·‚é‚¾‚¯‚ÅˆÓ–¡‚ª‚È‚©‚Á‚½‚Ì‚ÅA
-	  xhr-request-internal ‚ğ xhr-do-request ‚É•ÏXB
+	* xhr-do-request ãŒ xhr-request-internal ã«ä¸¸æŠ•ã’ã™ã‚‹ã ã‘ã§æ„å‘³ãŒãªã‹ã£ãŸã®ã§ã€
+	  xhr-request-internal ã‚’ xhr-do-request ã«å¤‰æ›´ã€‚
 
-	* future \‘¢‘Ì‚É uri ‚ğ’Ç‰ÁB
+	* future æ§‹é€ ä½“ã« uri ã‚’è¿½åŠ ã€‚
 
 	* xhr-future-values => xhr-future-value.
 
 	* - (create-future-and-complete-handler):
-	    - ‘½’l‚ğ list ‚É‚µ‚Ä•Û‘¶B
-	    - completed-p ‚Ìİ’è‚ÍÅŒã‚É
-	  - (xhr-future-values): timeout ‚ª nil ‚Ìê‡ timeout ‚È‚µ
+	    - å¤šå€¤ã‚’ list ã«ã—ã¦ä¿å­˜ã€‚
+	    - completed-p ã®è¨­å®šã¯æœ€å¾Œã«
+	  - (xhr-future-values): timeout ãŒ nil ã®å ´åˆ timeout ãªã—
 
-	* eval-when ‚Í‚½‚Ô‚ñ•s—vB
+	* eval-when ã¯ãŸã¶ã‚“ä¸è¦ã€‚
 
-	* msxml ‚ğ nickname ‚É’Ç‰ÁB
+	* msxml ã‚’ nickname ã«è¿½åŠ ã€‚
 
 2008-02-03  MIYAMUKO Katsuyuki
 
-	* (xhr-future-value): timeout ‚ğÀ‘•B
+	* (xhr-future-value): timeout ã‚’å®Ÿè£…ã€‚
 
-	* - get, post ‚É message ‚ğ•\¦B
+	* - get, post æ™‚ã« message ã‚’è¡¨ç¤ºã€‚
 
-	* (xhr-future-values): interval ‚ÌƒfƒtƒHƒ‹ƒg‚ğ 0.3s
+	* (xhr-future-values): interval ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’ 0.3s
 
 	* export xhr-future-completed-p, xhr-future-p
 
-	* future æ“¾ŠÖ”‚ğw’è‚Å‚«‚é‚æ‚¤‚É‚µ‚½B
+	* future å–å¾—é–¢æ•°ã‚’æŒ‡å®šã§ãã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
-	* future filter ‚Ì–ß‚è’l‚ª atom ‚Ìê‡ values-list ‚Å‰½‚à‹A‚ç‚È‚©‚Á‚½–â‘è‚ğC³B
+	* future filter ã®æˆ»ã‚Šå€¤ãŒ atom ã®å ´åˆ values-list ã§ä½•ã‚‚å¸°ã‚‰ãªã‹ã£ãŸå•é¡Œã‚’ä¿®æ­£ã€‚
 
-	* (rfc822-format-date, since): if-modified-since ‚ğì‚éŠÖ”B
+	* (rfc822-format-date, since): if-modified-since ã‚’ä½œã‚‹é–¢æ•°ã€‚
 
-	* if-modified-since ‚ğˆø”‚Éæ‚é‚æ‚¤‚É‚µ‚½B
+	* if-modified-since ã‚’å¼•æ•°ã«å–ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
 	* fixed typo.
 
@@ -240,48 +240,48 @@
 
 	* fixed typo...
 
-	* ˆø”‚Ì‡”Ô‚ªˆá‚¤
+	* å¼•æ•°ã®é †ç•ªãŒé•ã†
 
-	* ‚¾‚¢‚½‚¢Š®¬B
+	* ã ã„ãŸã„å®Œæˆã€‚
 
-	* *scrach* ‚Å•]‰¿‚µ‚½‚Æ‚«‚É html ‚ªo‚é‚Ì‚ª‚¢‚â‚È‚Ì‚Å ƒNƒ[ƒWƒƒ‚Å wrap
+	* *scrach* ã§è©•ä¾¡ã—ãŸã¨ãã« html ãŒå‡ºã‚‹ã®ãŒã„ã‚„ãªã®ã§ ã‚¯ãƒ­ãƒ¼ã‚¸ãƒ£ã§ wrap
 
-	* (www-url-encode): ƒoƒOƒtƒBƒbƒNƒX
+	* (www-url-encode): ãƒã‚°ãƒ•ã‚£ãƒƒã‚¯ã‚¹
 
 	* require compat.l
 
 2008-02-02  MIYAMUKO Katsuyuki
 
-	* ŒİŠ·‘w‚ğ‚Æ‚è‚ ‚¦‚¸À‘•
+	* äº’æ›å±¤ã‚’ã¨ã‚Šã‚ãˆãšå®Ÿè£…
 
-	* ‚Æ‚è‚ ‚¦‚¸À‘•B
+	* ã¨ã‚Šã‚ãˆãšå®Ÿè£…ã€‚
 
-	* ƒfƒBƒŒƒNƒgƒŠ®—
+	* ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ•´ç†
 
 2006-06-26  MIYAMUKO Katsuyuki
 
-	* (get): http-get -> get. http-get ‚Í obsolete.
+	* (get): http-get -> get. http-get ã¯ obsolete.
 
-	* (post): http-post -> post. http-post ‚Í obsolete.
+	* (post): http-post -> post. http-post ã¯ obsolete.
 
-	* (request): body ‚É list ‚ğ“n‚³‚ê‚½‚çƒGƒ“ƒR[ƒh‚·‚é‚æ‚¤‚É‚µ‚½B
+	* (request): body ã« list ã‚’æ¸¡ã•ã‚ŒãŸã‚‰ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
 
 	* (www-url-encode): '(("name" . "value") ("n2" "v2")) => name=value&n2=v2.
 
-	* (get, post): “¯Šú API ‚Ì‚Æ‚«‚à transport ‚ğ•Ô‚·‚æ‚¤‚É‚µ‚½B
+	* (get, post): åŒæœŸ API ã®ã¨ãã‚‚ transport ã‚’è¿”ã™ã‚ˆã†ã«ã—ãŸã€‚
 
-	* (response-xml): XML ‚ğ S®‚Å•Ô‚·‚æ‚¤‚É‚µ‚½B
+	* (response-xml): XML ã‚’ Så¼ã§è¿”ã™ã‚ˆã†ã«ã—ãŸã€‚
 
-	* (response-text): ‰Â”\‚È‚ç responseXml ‚Ì XML ƒvƒƒpƒeƒB‚ğæ‚Éæ“¾‚·‚é‚æ‚¤‚É‚µ‚½B
-	•¶š‰»‚¯‚µ‚È‚¢‚©‚à‚µ‚ê‚È‚¢‚©‚çB
+	* (response-text): å¯èƒ½ãªã‚‰ responseXml ã® XML ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å…ˆã«å–å¾—ã™ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+	æ–‡å­—åŒ–ã‘ã—ãªã„ã‹ã‚‚ã—ã‚Œãªã„ã‹ã‚‰ã€‚
 
 2006-06-14  MIYAMUKO Katsuyuki
 
-	* ƒo[ƒWƒ‡ƒ“‚ğ 0.2 ‚É‚µ‚½
+	* ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ 0.2 ã«ã—ãŸ
 
-	* ƒhƒLƒ…ƒƒ“ƒg’Ç‰ÁB
+	* ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆè¿½åŠ ã€‚
 
 2006-06-13  MIYAMUKO Katsuyuki
 
-	* xml-http-request 0.1 ƒŠƒŠ[ƒX
+	* xml-http-request 0.1 ãƒªãƒªãƒ¼ã‚¹
 

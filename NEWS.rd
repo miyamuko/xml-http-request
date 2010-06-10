@@ -2,146 +2,146 @@
 
 === 2008-07-12 / 1.2.1
 
-xml-http-request 1.2.1 �����[�X!
+xml-http-request 1.2.1 リリース!
 
-: �V�K�@�\
+: 新規機能
 
-    * �Ȃ�
+    * なし
 
-: ��݊����܂ޕύX�_
+: 非互換を含む変更点
 
-    * �Ȃ�
+    * なし
 
-: �o�O�C��
+: バグ修正
 
-    * �Ȃ�
+    * なし
 
-: ���̑�
+: その他
 
-    * ���C�Z���X�t�@�C���𓯍�
+    * ライセンスファイルを同梱
 
 
 === 2008-03-30 / 1.2.0
 
-xml-http-request 1.2.0 �����[�X!
+xml-http-request 1.2.0 リリース!
 
-: �V�K�@�\
+: 新規機能
 
-    * �e���N�G�X�g���\�b�h�� basic-auth ������ǉ����܂����B
+    * 各リクエストメソッドに basic-auth 引数を追加しました。
 
-      Basic �F�؂̂��߂̃��[�U���ƃp�X���[�h���w�肵�܂��B
+      Basic 認証のためのユーザ情報とパスワードを指定します。
 
         (xhr-get "http://foo.com" :basic-auth (xhr-credential "user" "password"))
 
-: ��݊����܂ޕύX�_
+: 非互換を含む変更点
 
-    * basic-auth �������w�肹���� Basic �F�؂��K�v�� URI �ɐڑ������ꍇ
-      �F�؏�����͂���_�C�A���O���\������܂��B
+    * basic-auth 引数を指定せずに Basic 認証が必要な URI に接続した場合
+      認証情報を入力するダイアログが表示されます。
 
-      1.0.0 �` 1.1.1 �ł͔F�؃_�C�A���O�͕\������܂���B
-      0.1 �ł͕\������܂��B
+      1.0.0 〜 1.1.1 では認証ダイアログは表示されません。
+      0.1 では表示されます。
 
-: �o�O�C��
+: バグ修正
 
-    * �ڑ����� URL �� userinfo �ɔF�؏����w�肵�Ă��������������C��
-      (��������ɂ���)
+    * 接続する URL の userinfo に認証情報を指定しても無視される問題を修正
+      (楓月さんによる報告)
 
         (xhr-get "http://user:password@foo.com")
 
-      �� basic-auth �������w�肵���ꍇ�� URL �� userinfo �͖�������܂��B
+      ※ basic-auth 引数を指定した場合は URL の userinfo は無視されます。
 
 
-=== 2008-03-03 / 1.1.1 / �ЂȂ܂�
+=== 2008-03-03 / 1.1.1 / ひなまつり
 
-xml-http-request 1.1.1 �����[�X!
+xml-http-request 1.1.1 リリース!
 
-: �V�K�@�\
+: 新規機能
 
-    * post �ȊO�̃��N�G�X�g�֐��� query �� encoding �L�[���[�h������ǉ��B
-      query string �����X�g�Ŏw��ł��܂��B
+    * post 以外のリクエスト関数に query と encoding キーワード引数を追加。
+      query string をリストで指定できます。
 
-: ��݊����܂ޕύX�_
+: 非互換を含む変更点
 
-    * �Ȃ�
+    * なし
 
-: �o�O�C��
+: バグ修正
 
-    * xml-http-request 1.1.0 �ŗ��p���� XMLHttpRequest �I�u�W�F�N�g��
-      Msxml2.XMLHTTP.6.0 �ɂ�������X�V���Ă������A
-      xyzzy �Ƃ̑g�ݍ��킹�ɖ�肪�������̂� Msxml2.XMLHTTP �ɖ߂����B
+    * xml-http-request 1.1.0 で利用する XMLHttpRequest オブジェクトを
+      Msxml2.XMLHTTP.6.0 にこっそり更新していたが、
+      xyzzy との組み合わせに問題があったので Msxml2.XMLHTTP に戻した。
 
 
 === 2008-02-23 / 1.1.0
 
-xml-http-request 1.1.0 �����[�X!
+xml-http-request 1.1.0 リリース!
 
-: �V�K�@�\
+: 新規機能
 
-    * �e���N�G�X�g�֐��� nomsg �L�[���[�h������ǉ��B
+    * 各リクエスト関数に nomsg キーワード引数を追加。
 
-      * nomsg �� non-nil ���w�肷��ƃ��b�Z�[�W���o�͂��܂���B
+      * nomsg に non-nil を指定するとメッセージを出力しません。
 
-    * xhr-future-value �� no-redraw �� sleep �L�[���[�h������ǉ��B
+    * xhr-future-value に no-redraw と sleep キーワード引数を追加。
 
-      * no-redraw �� non-nil ���w�肷��Ƒ҂����킹���ɉ�ʂ̍ĕ`����s���܂���B
-      * sleep �� non-nil ���w�肷��Ƒ҂����킹���Ɋ��荞�݂ł��Ȃ��悤�ɂ��܂��B
+      * no-redraw に non-nil を指定すると待ち合わせ中に画面の再描画を行いません。
+      * sleep に non-nil を指定すると待ち合わせ中に割り込みできないようにします。
 
-: ��݊����܂ޕύX�_
+: 非互換を含む変更点
 
-    * �Ȃ�
+    * なし
 
-: �o�O�C��
+: バグ修正
 
-    * �Ȃ�
-
-
-=== 2008-02-11 / 1.0.1 / �����L�O�̓�
-
-xml-http-request 1.0.1 �����[�X!
-
-: �V�K�@�\
-
-    * (xhr-abort): ���ɒʐM���I�����Ă����牽������ nil ��Ԃ��A
-      �ʐM�𒆒f�����Ȃ� t ��Ԃ��悤�ɂ����B
-
-: ��݊����܂ޕύX�_
-
-    * (xhr-xxx-async): �߂�l�� cancel-ticket ��Ԃ��悤�ɂ����B
-      cancel-ticket �� xhr-abort �Ɏw�肵�ĒʐM�𒆒f�\�B
-
-    * (http-get, http-post): �񓯊����M���� oledata ��Ԃ��B
-
-    * xhr-xxx-future �Ɏw�肵�� key �֐��̒��ŃG���[�����������ꍇ�A
-      xhr-future-value �������_�ŃG���[��ʒm�B
-
-: �o�O�C��
-
-    * �Ȃ�
+    * なし
 
 
-=== 2008-02-11 / 1.0.0 / �����L�O�̓�
+=== 2008-02-11 / 1.0.1 / 建国記念の日
 
-xml-http-request 1.0.0 �����[�X!
+xml-http-request 1.0.1 リリース!
 
-: �V�K�@�\
+: 新規機能
 
-    * ���j���[�A��
+    * (xhr-abort): 既に通信が終了していたら何もせず nil を返す、
+      通信を中断したなら t を返すようにした。
 
-    * Future �p�^�[���̃T�|�[�g
+: 非互換を含む変更点
 
-    * �C�x���g�n���h���̃}�N����
+    * (xhr-xxx-async): 戻り値に cancel-ticket を返すようにした。
+      cancel-ticket は xhr-abort に指定して通信を中断可能。
 
-: ��݊����܂ޕύX�_
+    * (http-get, http-post): 非同期送信時は oledata を返す。
 
-    * xml-http-request 0.1 �Ƃ̌݊��w��p�ӂ��Ă���̂Ŋ�{�I�ɂ͓����͂��ł��B
+    * xhr-xxx-future に指定した key 関数の中でエラーが発生した場合、
+      xhr-future-value した時点でエラーを通知。
 
-: �o�O�C��
+: バグ修正
 
-    * ���Ԃ�Ȃ�
+    * なし
+
+
+=== 2008-02-11 / 1.0.0 / 建国記念の日
+
+xml-http-request 1.0.0 リリース!
+
+: 新規機能
+
+    * リニューアル
+
+    * Future パターンのサポート
+
+    * イベントハンドラのマクロ化
+
+: 非互換を含む変更点
+
+    * xml-http-request 0.1 との互換層を用意しているので基本的には動くはずです。
+
+: バグ修正
+
+    * たぶんなし
 
 
 === 2006-06-13 / 0.1
 
-xml-http-request 0.1 �����[�X!
+xml-http-request 0.1 リリース!
 
 =end

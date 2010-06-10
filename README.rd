@@ -1,8 +1,8 @@
 =begin
 
-= xml-http-request - �񓯊� HTTP �ʐM���C�u����
+= xml-http-request - 非同期 HTTP 通信ライブラリ
 
-  * Author: �݂�ނ� ���䂫 ((<URL:mailto:miyamuko@gmail.com>))
+  * Author: みやむこ かつゆき ((<URL:mailto:miyamuko@gmail.com>))
   * Home URL: ((<URL:http://miyamuko.s56.xrea.com/xyzzy/xml-http-request/intro.htm>))
   * Version: 1.2.1
 
@@ -14,7 +14,7 @@
     (require "xml-http-request")
     (use-package :xml-http-request)
 
-    ;;; ���� API
+    ;;; 同期 API
 
     (let ((res (xhr-get "http://www.google.co.jp/")))
       (msgbox "~S" (xhr-response-text res)))
@@ -22,14 +22,14 @@
     (multiple-value-bind (response http-status header)
         (xhr-get "http://www.google.com/search"
                  :query '(:hl "ja" :lr "lang_ja" :ie "UTF-8" :oe "UTF-8" :num 50
-                          :q "xyzzy �ǂݕ�")
+                          :q "xyzzy 読み方")
                  :encoding *encoding-utf8n*
                  :since :epoch
                  :key 'xhr-response-values)
       (msgbox "~S~%~S" http-status header))
 
 
-    ;;; �񓯊� API (Future �p�^�[��)
+    ;;; 非同期 API (Future パターン)
 
     (let ((future (xhr-get-future "http://www.google.co.jp/")))
       (msgbox "do something~%~S" future)
@@ -37,60 +37,60 @@
         (msgbox "~S~%~S" (xhr-response-text res) future)))
 
 
-    ;;; �񓯊� API (�}�N��)
+    ;;; 非同期 API (マクロ)
 
     (with-xhr-post-async ("http://www.excite.co.jp/world/english/"
-                          '(:wb_lp "JAEN" :before "�����Ⴊ�~��܂����B\n�e�������ł��B"))
+                          '(:wb_lp "JAEN" :before "今日雪が降りました。\nテラ寒いです。"))
       (on 200 (res)
           (when (string-match
                  "<textarea cols=36 rows=15 name=\"after\".*?>\\([^<>]+?\\)</textarea>"
                  (xhr-response-text res))
             (msgbox "~A" (match-string 1))))
       (on :success (res)
-          (msgbox "�������܂���"))
+          (msgbox "成功しました"))
       (on :failure (res)
-          (msgbox "���s���܂���... orz"))
+          (msgbox "失敗しました... orz"))
       (on :complete (res)
-          (msgbox "�I�����܂���")
+          (msgbox "終了しました")
           (msgbox "~A~%~A" (xhr-response-header res "Server") (xhr-status res))))
 
 
-    ;; �񓯊� API (�֐�)
+    ;; 非同期 API (関数)
 
     (xhr-post-async "http://search.hatena.ne.jp/questsearch"
                     '(:wb_lp "ENJA" :before "xyzzy is awesome!")
                     :oncomplete #'(lambda (res)
-                                    (msgbox "�I�����܂���")
+                                    (msgbox "終了しました")
                                     (msgbox "http status: ~A" (xhr-status res))
                                     (msgbox "response text: ~A" (xhr-response-text res))))
 
 
 == DESCRIPTION
 
-xml-http-request �� HTTP �ʐM���s�����߂̃��C�u�����ł��B
-�񓯊��ʐM���s����̂� xyzzy ���~�߂邱�ƂȂ��ʐM�ł��܂��B
+xml-http-request は HTTP 通信を行うためのライブラリです。
+非同期通信を行えるので xyzzy を止めることなく通信できます。
 
-�܂��AWindows ���񋟂��� XMLHttpRequest �I�u�W�F�N�g�𗘗p���Ă��邽��
-Proxy �� Basic �F�؁ASSL �ɂ��Ή����Ă��܂��B
+また、Windows が提供する XMLHttpRequest オブジェクトを利用しているため
+Proxy や Basic 認証、SSL にも対応しています。
 
-Cookie ��L���b�V���̊Ǘ��� XMLHttpRequest �����ōs���܂��B
-������ IE �Ƌ��L����܂��B
+Cookie やキャッシュの管理は XMLHttpRequest 内部で行われます。
+これらは IE と共有されます。
 
 
 == INSTALL
 
-=== NetInstaller �ŃC���X�g�[��
+=== NetInstaller でインストール
 
 (1) ((<NetInstaller|URL:http://www7a.biglobe.ne.jp/~hat/xyzzy/ni.html>))
-    �� xml-http-request ���C���X�g�[�����܂��B
+    で xml-http-request をインストールします。
 
-=== NetInstaller ���g�킸�ɃC���X�g�[��
+=== NetInstaller を使わずにインストール
 
-(1) �A�[�J�C�u���_�E�����[�h���܂��B
+(1) アーカイブをダウンロードします。
 
     ((<URL:http://miyamuko.s56.xrea.com/xyzzy/archives/xml-http-request.zip>))
 
-(2) �A�[�J�C�u��W�J���āA$XYZZY/site-lisp �z���Ƀt�@�C�����R�s�[���܂��B
+(2) アーカイブを展開して、$XYZZY/site-lisp 配下にファイルをコピーします。
 
 
 
@@ -98,60 +98,60 @@ Cookie ��L���b�V���̊Ǘ��� XMLHttpRequest �����ōs���܂��B
 
 === PACKAGE
 
-xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
+xml-http-request は以下のパッケージを利用しています。
 
 * xml-http-request
 
-  nickname �� xhr �� msxml �ł��B
+  nickname は xhr と msxml です。
 
 
 === VARIABLE
 
-�Ȃ��B
+なし。
 
 
 === CONSTANT
 
-�Ȃ��B
+なし。
 
 
 === CODITION
 
 --- xhr-error
 
-    xml-http-request ���ʒm����R���f�B�V�����̐e�R���f�B�V�����ł��B
-    xhr-error ���̂��ʒm����邱�Ƃ͂���܂���B
+    xml-http-request が通知するコンディションの親コンディションです。
+    xhr-error 自体が通知されることはありません。
 
 --- xhr-open-error
 
-    �w�肵�� URL �ɐڑ��ł��Ȃ��ꍇ�ɒʒm�����R���f�B�V�����ł��B
+    指定した URL に接続できない場合に通知されるコンディションです。
 
-    �񓯊� API �̎��͒ʒm����܂���B
+    非同期 API の時は通知されません。
 
 --- xhr-too-long-url-error
 
-    �w�肵�� URL ����������ꍇ�ɒʒm�����R���f�B�V�����ł��B
+    指定した URL が長すぎる場合に通知されるコンディションです。
 
-    �񓯊� API �̎��͒ʒm����܂���B
+    非同期 API の時は通知されません。
 
 
 === COMMAND
 
-�Ȃ��B
+なし。
 
 
 === FUNCTION
 
 --- xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
 
-    �w�肳�ꂽ URL �̃��\�[�X�� get ���܂��B
+    指定された URL のリソースを get します。
 
-    ���� API �͓��� API �ł��B
-    get ���I������܂Ńu���b�N�����X�|���X�I�u�W�F�N�g��Ԃ��܂��B
+    この API は同期 API です。
+    get が終了するまでブロックしレスポンスオブジェクトを返します。
 
-    * BASIC-AUTH �ɂ�
+    * BASIC-AUTH には
       ((<xhr-credential|xhr-credential USER PASSWORD>))
-      �ō쐬���� Basic �F�ؗp�̏����w�肵�܂��B
+      で作成した Basic 認証用の情報を指定します。
 
         (defun gmail-unread (tag user password)
           (xhr-get (concat "https://mail.google.com/mail/feed/atom/" tag)
@@ -159,87 +159,87 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
                    :key 'xhr-response-xml
                    :since :epoch))
 
-    * NOMSG �� non-nil ���w�肷��ƃ��b�Z�[�W���o�͂��܂���B
+    * NOMSG に non-nil を指定するとメッセージを出力しません。
 
-      nil �̏ꍇ���b�Z�[�W�̈�ɒʐM��Ԃ�\�����܂��B
-      �f�t�H���g�� nil �ł��B
+      nil の場合メッセージ領域に通信状態を表示します。
+      デフォルトは nil です。
 
-    * KEY �Ɋ֐����w�肷��ƁA���̊֐������X�|���X�I�u�W�F�N�g�ɓK�p�������ʂ�Ԃ��܂��B
+    * KEY に関数を指定すると、その関数をレスポンスオブジェクトに適用した結果を返します。
 
         (xhr-get "http://www.google.co.jp/")                  ;=> #S(xml-http-request::http-response ...)
         (xhr-get "http://www.google.co.jp/" :key 'xhr-status) ;=> 200
 
-    * SINCE �ɂ͑��M���� If-Modified-Since �w�b�_���w�肵�܂��B
+    * SINCE には送信時の If-Modified-Since ヘッダを指定します。
 
-      SINCE �ɂ͈ȉ��̒l���w��ł��܂��B
+      SINCE には以下の値を指定できます。
 
       : :epoch
-          Unix epoch (1970-01-01 00:00:00) �𑗐M���܂��B
-          ���̒l���w�肷��ƃL���b�V�����g�킸�Ƀl�b�g���[�N����擾���܂��B
+          Unix epoch (1970-01-01 00:00:00) を送信します。
+          この値を指定するとキャッシュを使わずにネットワークから取得します。
 
-      : <���l>
-          ���l���w�肵���ꍇ�̓��[�J�����Ԃ� universal-time �ƌ��Ȃ���
-          ������ɕϊ����܂��B
+      : <数値>
+          数値を指定した場合はローカル時間の universal-time と見なして
+          文字列に変換します。
 
-      : <������>
-          ��������w�肵���ꍇ�͂��̂܂ܑ��M���܂��B
+      : <文字列>
+          文字列を指定した場合はそのまま送信します。
 
-    * HEADERS �ɂ͑��M���� HTTP �w�b�_�����X�g�Ŏw�肵�܂��B
+    * HEADERS には送信時の HTTP ヘッダをリストで指定します。
 
-      HEADERS �� If-Modified-Since ���w�肵�A���� SINCE �������Ɏw�肵���ꍇ��
-      SINCE �̎w�肪�L���ɂȂ�܂��B
+      HEADERS に If-Modified-Since を指定し、かつ SINCE も同時に指定した場合は
+      SINCE の指定が有効になります。
 
-    * QUERY �� query string �𕶎���܂��̓��X�g�Ŏw�肵�܂��B
+    * QUERY は query string を文字列またはリストで指定します。
 
-      �w�肵�� query string �� URL ���ɒ��ڋL�q���Ă��� query string
-      �Ƃ��킹�� URL �ɒǉ�����܂��B
+      指定した query string は URL 中に直接記述している query string
+      とあわせて URL に追加されます。
 
         (xhr-get "http://www.google.com/search?hl=ja&lr=lang_ja"
                  :query '(:ie "UTF-8" :oe "UTF-8" :num 50
-                          :q "xyzzy �ǂݕ�")
+                          :q "xyzzy 読み方")
                  :encoding *encoding-utf8n*)
         ;;=> GET from http://www.google.com/search?hl=ja&lr=lang_ja&ie=UTF-8&oe=UTF-8&num=50&q=xyzzy%20%E8%AA%AD%E3%81%BF%E6%96%B9
 
-      ��������w�肷��Ƃ��̂܂� URL �ɒǉ����܂��B
-      si:www-url-encode �ȂǂœK�؂ɃG���R�[�h�����l���w�肵�Ă��������B
+      文字列を指定するとそのまま URL に追加します。
+      si:www-url-encode などで適切にエンコードした値を指定してください。
 
-      �L�[�ƒl����Ȃ郊�X�g���w�肷��Ǝ����I�ɃG���R�[�h���܂��B
-      ENCODING ���w�肷��ƕ����R�[�h��ϊ�������� RFC3986 �ɂ�����x�]�� url �G���R�[�h���܂�
-      (si:www-url-encode �̃f�t�H���g�Ƃ͈Ⴂ�܂�)�B
-      ENCODING ���w�肵�Ȃ��ꍇ Shift_JIS �̂܂܃G���R�[�h���܂��B
+      キーと値からなるリストを指定すると自動的にエンコードします。
+      ENCODING を指定すると文字コードを変換した上で RFC3986 にある程度従い url エンコードします
+      (si:www-url-encode のデフォルトとは違います)。
+      ENCODING を指定しない場合 Shift_JIS のままエンコードします。
 
-    ��:
+    例:
         (xhr-response-text
          (xhr-get "http://www.google.co.jp/"
-                  ;; alist �Ŏw�肵�Ă� ok
+                  ;; alist で指定しても ok
                   :headers '(:User-Agent "Firefox"
                              :Accept-Language "en, ja")
                   :since :epoch))
 
 
-    �Ȃ��AX-Yzzy-Version �Ƃ����w�b�_���K�����M����܂� (�l�� xyzzy �̃o�[�W����)�B
+    なお、X-Yzzy-Version というヘッダが必ず送信されます (値は xyzzy のバージョン)。
 
 --- xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
 
-    �w�肳�ꂽ URL �̃��\�[�X�� get ���܂��B
+    指定された URL のリソースを get します。
 
-    ���� API �͔񓯊� API �ł��B
-    API ���Ăяo���Ƃ����ɐ����Ԃ��A�L�����Z���I�u�W�F�N�g��Ԃ��܂��B
+    この API は非同期 API です。
+    API を呼び出すとすぐに制御を返し、キャンセルオブジェクトを返します。
 
-    ���N�G�X�g���~�������ꍇ�̓L�����Z���I�u�W�F�N�g��
+    リクエストを停止したい場合はキャンセルオブジェクトを
     ((<xhr-abort|xhr-abort TRANSPORT>))
-    �Ɏw�肵�܂��B
+    に指定します。
 
-    get ���I������Ǝw�肳�ꂽ callback ���Ăяo���܂��B
+    get が終了すると指定された callback を呼び出します。
 
-    * BASIC-AUTH NOMSG, KEY, SINCE, HEADERS �̎w����@��
+    * BASIC-AUTH NOMSG, KEY, SINCE, HEADERS の指定方法は
       ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
-      ���Q�Ƃ��Ă��������B
+      を参照してください。
 
-      KEY ���w�肷��� KEY �̖߂�l���C�x���g�n���h���Ɏw�肳��܂��B
-      KEY �����l��Ԃ��ꍇ�́A���l�̒l���C�x���g�n���h���̂��ꂼ��̈����Ɏw�肳��܂��B
+      KEY を指定すると KEY の戻り値がイベントハンドラに指定されます。
+      KEY が多値を返す場合は、多値の値がイベントハンドラのそれぞれの引数に指定されます。
 
-      ��:
+      例:
         (xhr-get-async "http://www.google.co.jp/"
                        :key #'(lambda (res)
                                 (values (xhr-requested-uri res)
@@ -248,25 +248,25 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
                                        (msgbox "~S => ~S" uri status)))
 
 
-    * �C�x���g�n���h���� ONSUCCESS ONFAILURE ONCOMPLETE HANDLER �Ŏw�肵�܂��B
+    * イベントハンドラは ONSUCCESS ONFAILURE ONCOMPLETE HANDLER で指定します。
 
       * ONSUCCESS
 
-        ����I�� (http status �� 20x) �����ꍇ�ɌĂ΂�܂��B
+        正常終了 (http status が 20x) した場合に呼ばれます。
 
       * ONFAILURE
 
-        �ُ�I�� (http status �� 20x �ȊO) �����ꍇ�ɌĂ΂�܂��B
+        異常終了 (http status が 20x 以外) した場合に呼ばれます。
 
       * ONCOMPLETE
 
-        �ʐM�I����ɏ�ɌĂ΂�܂��BONSUCCESS, ONFAILURE ����ɌĂ΂�܂��B
+        通信終了後に常に呼ばれます。ONSUCCESS, ONFAILURE より後に呼ばれます。
 
       * HANDLER
 
-        HTTP �X�e�[�^�X���ƂɃC�x���g�n���h�������s�������ꍇ�� HANDLER �Ŏw�肵�܂��B
+        HTTP ステータスごとにイベントハンドラを実行したい場合は HANDLER で指定します。
 
-    ��:
+    例:
         (xhr-get-async "http://www.google.co.jp/"
                        :headers '(:User-Agent "Mozilla Firefox"
                                   :Accept-Language "ja")
@@ -280,28 +280,28 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
                                  304 #'(lambda (res) (msgbox "not modified"))
                                  404 #'(lambda (res) (msgbox "not found"))))
 
-    �Ȃ��AX-Yzzy-Version �Ƃ����w�b�_���K�����M����܂� (�l�� xyzzy �̃o�[�W����)�B
+    なお、X-Yzzy-Version というヘッダが必ず送信されます (値は xyzzy のバージョン)。
 
 --- xhr-get-future URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
 
-    �w�肳�ꂽ URL �̃��\�[�X�� get ���܂��B
+    指定された URL のリソースを get します。
 
-    ���� API �͔񓯊� API �ł��B
-    API ���Ăяo���Ƃ����ɐ����Ԃ��AFuture �I�u�W�F�N�g��Ԃ��܂��B
+    この API は非同期 API です。
+    API を呼び出すとすぐに制御を返し、Future オブジェクトを返します。
     ((<xhr-future-value|xhr-future-value FUTURE &KEY NOWAIT NO-REDRAW SLEEP TIMEOUT INTERVAL>))
-    �� Future �I�u�W�F�N�g����l���擾���悤�Ƃ������_�ł܂� get ���������Ă��Ȃ��ꍇ�̓u���b�N���܂��B
+    で Future オブジェクトから値を取得しようとした時点でまだ get が完了していない場合はブロックします。
 
-    ���N�G�X�g���~�������ꍇ�� Future �I�u�W�F�N�g��
+    リクエストを停止したい場合は Future オブジェクトを
     ((<xhr-abort|xhr-abort TRANSPORT>))
-    �Ɏw�肵�܂��B
+    に指定します。
 
-    * BASIC-AUTH, NOMSG, KEY, SINCE, HEADERS �̎w����@��
+    * BASIC-AUTH, NOMSG, KEY, SINCE, HEADERS の指定方法は
       ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
-      ���Q�Ƃ��Ă��������B
+      を参照してください。
 
-    * �߂�l�� Future �I�u�W�F�N�g��Ԃ��܂��B
+    * 戻り値は Future オブジェクトを返します。
 
-    ��:
+    例:
         (let ((future (xhr-get-future "http://www.google.co.jp/"
                                       :key 'xhr-status-text
                                       :since :epoch)))
@@ -310,7 +310,7 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
                   (xhr-future-value future :timeout 10)
                   future))
 
-    �Ȃ��AX-Yzzy-Version �Ƃ����w�b�_���K�����M����܂� (�l�� xyzzy �̃o�[�W����)�B
+    なお、X-Yzzy-Version というヘッダが必ず送信されます (値は xyzzy のバージョン)。
 
     See Also:
 
@@ -320,42 +320,42 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
 
 --- xhr-head URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
 
-    �w�肳�ꂽ URL �� HEAD ���N�G�X�g�𓯊��I�ɑ��M���܂��B
+    指定された URL に HEAD リクエストを同期的に送信します。
 
-    �ڍׂ�
+    詳細は
     ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
-    ���Q�Ƃ��Ă��������B
+    を参照してください。
 
 --- xhr-head-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
 
-    �w�肳�ꂽ URL �� HEAD ���N�G�X�g��񓯊��ɑ��M���܂��B
+    指定された URL に HEAD リクエストを非同期に送信します。
 
-    �ڍׂ�
+    詳細は
     ((<xhr-get-async|xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    ���Q�Ƃ��Ă��������B
+    を参照してください。
 
 --- xhr-head-future URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
-    �w�肳�ꂽ URL �� HEAD ���N�G�X�g��񓯊��ɑ��M���܂��B
+    指定された URL に HEAD リクエストを非同期に送信します。
 
-    �ڍׂ�
+    詳細は
     ((<xhr-get-future|xhr-get-future URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
-    ���Q�Ƃ��Ă��������B
+    を参照してください。
 
 --- xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING
 
-    �w�肳�ꂽ URL �� DATA �𓯊��I�� POST ���܂��B
+    指定された URL に DATA を同期的に POST します。
 
-    * DATA �͕�����܂��̓��X�g�Ŏw�肵�܂��B
+    * DATA は文字列またはリストで指定します。
 
-      ��������w�肷��Ƃ��̂܂ܑ��M���܂��B
-      si:www-url-encode �ȂǂœK�؂ɃG���R�[�h�����l���w�肵�Ă��������B
+      文字列を指定するとそのまま送信します。
+      si:www-url-encode などで適切にエンコードした値を指定してください。
 
-      �L�[�ƒl����Ȃ郊�X�g���w�肷��Ǝ����I�ɃG���R�[�h���܂��B
-      ENCODING ���w�肷��ƕ����R�[�h��ϊ�������� RFC3986 �ɂ�����x�]�� url �G���R�[�h���܂�
-      (si:www-url-encode �̃f�t�H���g�Ƃ͈Ⴂ�܂�)�B
-      ENCODING ���w�肵�Ȃ��ꍇ�͂��̂܂� url �G���R�[�h���܂��B
+      キーと値からなるリストを指定すると自動的にエンコードします。
+      ENCODING を指定すると文字コードを変換した上で RFC3986 にある程度従い url エンコードします
+      (si:www-url-encode のデフォルトとは違います)。
+      ENCODING を指定しない場合はそのまま url エンコードします。
 
-      �ȉ��� 2 �̌Ăяo���͓����ł��B
+      以下の 2 つの呼び出しは等価です。
 
         (xhr-post "https://www.hatena.ne.jp/login"
                   "name=foo&password=bar&persistent=1"
@@ -367,46 +367,46 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
                   :key 'xhr-response-text
                   :since :epoch)
 
-    * HEADERS �� Content-Type ���w�肳��Ă��Ȃ��ꍇ��
-      application/x-www-form-urlencoded �������I�ɃZ�b�g����܂��B
+    * HEADERS で Content-Type が指定されていない場合は
+      application/x-www-form-urlencoded が自動的にセットされます。
 
         (xhr-post url
                   octet-data
                   :headers '(:Content-Type "application/octet-stream"))
 
 
-    ���̑��̈�������і߂�l��
+    その他の引数および戻り値は
     ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
-    �Ɠ����ł��B
+    と同じです。
 
 --- xhr-post-async URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
 
-    �w�肳�ꂽ URL �� DATA ��񓯊��� POST ���܂��B
+    指定された URL に DATA を非同期に POST します。
 
-    �ڍׂ͈ȉ����Q�Ƃ��Ă��������B
+    詳細は以下を参照してください。
 
     * ((<xhr-post|xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING>))
     * ((<xhr-get-async|xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
 
 --- xhr-post-future URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING
 
-    �w�肳�ꂽ URL �� DATA ��񓯊��� POST ���܂��B
+    指定された URL に DATA を非同期に POST します。
 
-    �ڍׂ͈ȉ����Q�Ƃ��Ă��������B
+    詳細は以下を参照してください。
 
     * ((<xhr-post|xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING>))
     * ((<xhr-get-future|xhr-get-future URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
 
 --- xhr-request METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
 
-    �w�肳�ꂽ HTTP METHOD �𑗐M���܂��B
-    DATA ���Ȃ��ꍇ�� nil ���w�肵�Ă��������B
+    指定された HTTP METHOD を送信します。
+    DATA がない場合は nil を指定してください。
 
-    ���̑��̈�����
+    その他の引数は
     ((<xhr-post|xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING>))
-    �Ɠ����ł��B
+    と同じです。
 
-    ��:
+    例:
 
         (xhr-request "OPTIONS" url  nil
                      :key #'(lambda (res)
@@ -415,139 +415,139 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
 
 --- xhr-request-async METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING HANDLER ONSUCCESS ONFAILURE ONCOMPLETE
 
-    �w�肳�ꂽ URL �� METHOD ��񓯊��ɑ��M���܂��B
+    指定された URL に METHOD を非同期に送信します。
 
-    �ڍׂ͈ȉ����Q�Ƃ��Ă��������B
+    詳細は以下を参照してください。
 
     * ((<xhr-request|xhr-request METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
     * ((<xhr-get-async|xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
 
 --- xhr-request-future METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING
 
-    �w�肳�ꂽ URL �� METHOD ��񓯊��ɑ��M���܂��B
+    指定された URL に METHOD を非同期に送信します。
 
-    �ڍׂ͈ȉ����Q�Ƃ��Ă��������B
+    詳細は以下を参照してください。
 
     * ((<xhr-request|xhr-request METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
     * ((<xhr-get-future|xhr-get-future URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))
 
 --- xhr-future-p OBJ
 
-    �w�肳�ꂽ OBJ �� Future �I�u�W�F�N�g�Ȃ� non-nil ��Ԃ��܂��B
+    指定された OBJ が Future オブジェクトなら non-nil を返します。
 
 --- xhr-future-uri FUTURE
 
-    �w�肳�ꂽ Future �I�u�W�F�N�g���烊�N�G�X�g��� URI ���擾���܂��B
+    指定された Future オブジェクトからリクエスト先の URI を取得します。
 
 --- xhr-future-completed-p FUTURE
 
-    �w�肳�ꂽ Future �I�u�W�F�N�g�̃��N�G�X�g���������Ă����� non-nil ��Ԃ��܂��B
+    指定された Future オブジェクトのリクエストが完了していたら non-nil を返します。
 
 --- xhr-future-value FUTURE &KEY NOWAIT NO-REDRAW SLEEP TIMEOUT INTERVAL
 
-    �w�肳�ꂽ Future �I�u�W�F�N�g���猋�ʂ��擾���܂��B
-    ���ʂ̓��N�G�X�g���M���Ɏw�肵�� KEY ���K�p���ꂽ���ʂ��Ԃ�܂��B
+    指定された Future オブジェクトから結果を取得します。
+    結果はリクエスト送信時に指定した KEY が適用された結果が返ります。
 
-    ���N�G�X�g���������Ă��Ȃ��ꍇ�͊�����҂����킹�܂��B
+    リクエストが完了していない場合は完了を待ち合わせます。
 
-    * NOWAIT �� non-nil ���w�肷��ƃ��N�G�X�g���������Ă��Ȃ��ꍇ��
-      �҂����킹�������ɂ����� nil ��Ԃ��܂��B
+    * NOWAIT に non-nil を指定するとリクエストが完了していない場合は
+      待ち合わせをせずにすぐに nil を返します。
 
-      �f�t�H���g�� nil �ł��B
+      デフォルトは nil です。
 
-    * NO-REDRAW �� non-nil ���w�肷��ƃ��N�G�X�g�̊����҂�����
-      ��ʂ̍ĕ`����s���܂���B
+    * NO-REDRAW に non-nil を指定するとリクエストの完了待ち中に
+      画面の再描画を行いません。
 
-      �f�t�H���g�� nil �ł��B
+      デフォルトは nil です。
 
-    * SLEEP �� non-nil ���w�肷��ƃ��N�G�X�g�̊����҂�����
-      �L�[���͂������Ă����f���܂���B
+    * SLEEP に non-nil を指定するとリクエストの完了待ち中に
+      キー入力があっても中断しません。
 
-      SLEEP �� nil �̏ꍇ�L�[���͂���������҂����킹�𒆒f���܂��B
-      ���f���_�Ń��N�G�X�g�������Ă��Ȃ��ꍇ�� nil ��Ԃ��܂��B
+      SLEEP が nil の場合キー入力があったら待ち合わせを中断します。
+      中断時点でリクエスト完了していない場合は nil を返します。
 
-      SLEEP ���w�肵���ꍇ�͉�ʂ̍ĕ`����s���܂���B
+      SLEEP を指定した場合は画面の再描画を行いません。
 
-      �f�t�H���g�� nil �ł��B
+      デフォルトは nil です。
 
-    * TIMEOUT ���w�肷��Ǝw�肵���b���ȓ��Ƀ��N�G�X�g���������Ȃ��ꍇ�A
-      nil ��Ԃ��܂��B
+    * TIMEOUT を指定すると指定した秒数以内にリクエストが完了しない場合、
+      nil を返します。
 
-      TIMEOUT �� nil ���w�肷��ƃ^�C���A�E�g�����ɖ����ɑ҂����킹�܂��B
+      TIMEOUT に nil を指定するとタイムアウトせずに無限に待ち合わせます。
 
-      �f�t�H���g�� 3 �b�ł��B
+      デフォルトは 3 秒です。
 
-    * INTERVAL �͊Ď��Ԋu�ł��B
+    * INTERVAL は監視間隔です。
 
-      �f�t�H���g�� 0.3 �b�ł��B
+      デフォルトは 0.3 秒です。
 
 --- xhr-requested-uri RES
 
-    �w�肳�ꂽ���X�|���X�I�u�W�F�N�g���� URI ���擾���܂��B
+    指定されたレスポンスオブジェクトから URI を取得します。
 
       (xhr-requested-uri (xhr-get "http://www.google.co.jp/"))
       ;=> http://www.google.co.jp/
 
 --- xhr-all-response-header RES
 
-    ���ׂĂ� HTTP �w�b�_���擾���܂��B
-    �߂�l�͑S�w�b�_���܂Ƃ߂�������ŕԂ��܂��B
+    すべての HTTP ヘッダを取得します。
+    戻り値は全ヘッダをまとめた文字列で返します。
 
 --- xhr-all-response-header-alist RES
 
-    ���ׂĂ� HTTP �w�b�_�� alist �Ŏ擾���܂��B
+    すべての HTTP ヘッダを alist で取得します。
 
 --- xhr-all-response-header-hash RES
 
-    ���ׂĂ� HTTP �w�b�_�� hashtable �Ŏ擾���܂��B
+    すべての HTTP ヘッダを hashtable で取得します。
 
 --- xhr-response-header RES HEADER
 
-    �w�肵�� HTTP �w�b�_���擾���܂��B
-    header �ɂ� "Content-Length" �� "Last-Modified" �Ȃǂ��w�肵�܂��B
+    指定した HTTP ヘッダを取得します。
+    header には "Content-Length" や "Last-Modified" などを指定します。
 
 --- xhr-response-text RES
 
-    HTTP �ʐM�̌��� (body) ���擾���܂��B
+    HTTP 通信の結果 (body) を取得します。
 
 --- xhr-response-xml RES
 
-    �擾���� XML �� S���ŕԂ��܂��B
-    S ���� xml-parser-modoki �ƌ݊���������܂��i���Ԃ�j�B
+    取得した XML を S式で返します。
+    S 式は xml-parser-modoki と互換性があります（たぶん）。
 
-    �擾��̃��\�[�X�� XML �łȂ��ꍇ nil ��Ԃ��܂��B
-    XML ���e�L�X�g�`���Ŏ擾�������ꍇ��
+    取得先のリソースが XML でない場合 nil を返します。
+    XML をテキスト形式で取得したい場合は
     ((<xhr-response-text|xhr-response-text RES>))
-    ���g�p���Ă��������B
+    を使用してください。
 
 --- xhr-response-values RES
 
-    �ȉ��̒l�𑽒l�ŕԂ��܂��B
-    * ((<"���X�|���X�{��"|xhr-response-text RES>))
-    * ((<"HTTP �X�e�[�^�X"|xhr-status RES>))
-    * ((<"���X�|���X�w�b�_ (alist)"|xhr-all-response-header-alist RES>))
+    以下の値を多値で返します。
+    * ((<"レスポンス本文"|xhr-response-text RES>))
+    * ((<"HTTP ステータス"|xhr-status RES>))
+    * ((<"レスポンスヘッダ (alist)"|xhr-all-response-header-alist RES>))
 
 --- xhr-status RES
 
-    HTTP status ���擾���܂��B
+    HTTP status を取得します。
 
 --- xhr-status-text RES
 
-    HTTP status �̕�����\�����擾���܂��B
+    HTTP status の文字列表現を取得します。
 
 --- xhr-abort TRANSPORT
 
-    �w�肵�����N�G�X�g���~���܂��B
+    指定したリクエストを停止します。
 
-    �����ɂ� Future �I�u�W�F�N�g (xhr-xxx-future �̖߂�l)�A
-    �L�����Z���I�u�W�F�N�g (xhr-xxx-async �̖߂�l) ���w��\�ł��B
+    引数には Future オブジェクト (xhr-xxx-future の戻り値)、
+    キャンセルオブジェクト (xhr-xxx-async の戻り値) を指定可能です。
 
-    �ʐM�𒆒f�����Ȃ� t ��Ԃ��܂��B
-    ���ɒʐM���I�����Ă����牽������ nil ��Ԃ��܂��B
+    通信を中断したなら t を返します。
+    既に通信が終了していたら何もせず nil を返します。
 
-    ��:
+    例:
 
-        ;; 5 �b�ȓ��Ɍ��ʂ��Ԃ�Ȃ���΃R�l�N�V������ؒf���ė�O�𓊂���
+        ;; 5 秒以内に結果が返らなければコネクションを切断して例外を投げる
         (let ((future (xhr-get-future url)))
           (let ((v (xhr-future-value future :timeout 5)))
             (unless (xhr-future-completed-p future)
@@ -557,19 +557,19 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
 
 --- xhr-credential USER PASSWORD
 
-    �e���N�G�X�g�֐��� :basic-auth �����Ɏw�肷�邽�߂�
-    ���[�U�F�ؗp�̏����쐬���܂��B
+    各リクエスト関数の :basic-auth 引数に指定するための
+    ユーザ認証用の情報を作成します。
 
 --- xml-http-request-version
 
-    �{���C�u�����̃o�[�W������Ԃ��܂��B
-    �o�[�W������ major.minor.teeny �Ƃ����`���ł��B
+    本ライブラリのバージョンを返します。
+    バージョンは major.minor.teeny という形式です。
 
-    ���ꂼ��̔ԍ��͕K�� 1 ���ɂ���̂ŁA�ȉ��̂悤�ɔ�r���邱�Ƃ��ł��܂��B
+    それぞれの番号は必ず 1 桁にするので、以下のように比較することができます。
 
         (if (string<= "1.1.0" (xml-http-request-version))
-            (1.1.0 �ȍ~�ŗL���ȏ���)
-          (1.1.0 ���O�̃o�[�W�����ł̏���))
+            (1.1.0 以降で有効な処理)
+          (1.1.0 より前のバージョンでの処理))
 
 
 === MACRO
@@ -577,27 +577,27 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
 --- with-xhr-get-async (URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>) &BODY HANDLER
 
     ((<xhr-get-async|xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    �̃��b�p�[�}�N���ł��B
+    のラッパーマクロです。
 
-    �}�N���̖{�̂ɂ͈ȉ��̌`���ŃC�x���g�n���h�����L�q�ł��܂��B
+    マクロの本体には以下の形式でイベントハンドラを記述できます。
 
-      (on <(or HTTP�X�e�[�^�X :success :failure :complete)> (<������>...)
-          <�C�x���g�n���h���̖{��>)
+      (on <(or HTTPステータス :success :failure :complete)> (<仮引数>...)
+          <イベントハンドラの本体>)
 
-    ��)
+    例)
 
       (with-xhr-get-async ("http://www.google.co.jp/" :since :epoch)
         (on 200 (res)
             (msgbox "200 OK"))
         (on :success (res)
-            (msgbox "�������܂��� ~S" (xhr-response-header res "Server")))
+            (msgbox "成功しました ~S" (xhr-response-header res "Server")))
         (on :failure (res)
-            (msgbox "���s���܂���... orz"))
+            (msgbox "失敗しました... orz"))
         (on :complete (res)
-            (msgbox "�I�����܂���")
+            (msgbox "終了しました")
             (msgbox "http status: ~A" (xhr-status res))))
 
-    on �̒��g�̓N���[�W���ɕϊ������̂ňȉ��̂悤�Ȃ��Ƃ��ł��܂��B
+    on の中身はクロージャに変換されるので以下のようなこともできます。
 
       (setf result (let ((r nil))
                      (with-xhr-get-async ("http://www.google.co.jp/"
@@ -610,125 +610,125 @@ xml-http-request �͈ȉ��̃p�b�P�[�W�𗘗p���Ă��܂��B
 --- with-xhr-head-async (URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING) &BODY HANDLER
 
     ((<xhr-head-async|xhr-head-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    �̃��b�p�[�}�N���ł��B
+    のラッパーマクロです。
 
 --- with-xhr-post-async (URL BODY &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING) &BODY HANDLER
 
     ((<xhr-post-async|xhr-post-async URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    �̃��b�p�[�}�N���ł��B
+    のラッパーマクロです。
 
 --- with-xhr-request-async (METHOD URL BODY &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING) &BODY HANDLER
 
     ((<xhr-request-async|xhr-request-async METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING HANDLER ONSUCCESS ONFAILURE ONCOMPLETE>))
-    �̃��b�p�[�}�N���ł��B
+    のラッパーマクロです。
 
 
 === OBSOLETE FUNCTION
 
 --- http-get URL &KEY HEADERS ONFAILURE ONSUCCESS ONCOMPLETE
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
-    ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))�A
+    変わりに
+    ((<xhr-get|xhr-get URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING>))、
     ((<xhr-get-async|xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- http-post URL DATA &KEY HEADERS ONFAILURE ONSUCCESS ONCOMPLETE
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
-    ((<xhr-post|xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING>))�A
+    変わりに
+    ((<xhr-post|xhr-post URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING>))、
     ((<xhr-post-async|xhr-post-async URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- response-text TRANSPORT
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-response-text|xhr-response-text RES>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- status TRANSPORT
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-status|xhr-status RES>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- status-text TRANSPORT
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-status-text|xhr-status-text RES>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- abort TRANSPORT
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-abort|xhr-abort TRANSPORT>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- all-response-headers TRANSPORT
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-all-response-header|xhr-all-response-header RES>))
-    ���g���Ă��������B
+    を使ってください。
 
 --- response-header TRANSPORT HEADER
 
-    ����͌݊����̂��߂Ɏc����Ă��� �񐄏� API �ł��B
+    これは互換性のために残されている 非推奨 API です。
 
-    �ς���
+    変わりに
     ((<xhr-response-header|xhr-response-header RES HEADER>))
-    ���g���Ă��������B
+    を使ってください。
 
 
 == TODO
 
-* �t�b�N
-* �g���[�X���O
+* フック
+* トレースログ
 * Msxml2.ServerXMLHTTP
   * proxycfg
   * netsh (vista)
-  * oledata �̍ė��p
+  * oledata の再利用
     * xhr-agent ?
 
 
 == KNOWN BUGS
 
-* �󔒕����� + �ł͂Ȃ� %20 �ɃG���R�[�h����܂��B
+* 空白文字は + ではなく %20 にエンコードされます。
 
-* �T�[�o���� charset ��Ԃ������� UTF-8 �ȊO�̏ꍇ�͕����������܂��B
+* サーバ側が charset を返さずかつ UTF-8 以外の場合は文字化けします。
 
-  �� ((<URL:http://d.hatena.ne.jp/miyamuko/20050913#p1>))
+  → ((<URL:http://d.hatena.ne.jp/miyamuko/20050913#p1>))
 
-* ������� xyzzy ������ Shift_JIS �ɕϊ�����܂��B
+* 文字列は xyzzy 内部で Shift_JIS に変換されます。
 
-  Shift_JIS �O�̕����� ? �ɉ����܂� (�p��Ɠ��{��ȊO�͂܂Ƃ��Ɉ����܂���)�B
+  Shift_JIS 外の文字は ? に化けます (英語と日本語以外はまともに扱えません)。
 
 
 == AUTHOR
 
-�݂�ނ� ���䂫 (((<URL:mailto:miyamuko@gmail.com>)))
+みやむこ かつゆき (((<URL:mailto:miyamuko@gmail.com>)))
 
 
 == SEE ALSO
 
-�Ȃ��B
+なし。
 
 
 == COPYRIGHT
 
-xml-http-request �� MIT/X ���C�Z���X�Ɋ�Â��ė��p�\�ł��B
+xml-http-request は MIT/X ライセンスに基づいて利用可能です。
 
 See xml-http-request/docs/MIT-LICENSE for full license.
 

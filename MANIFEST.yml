@@ -21,5 +21,4 @@ files:
     - site-lisp/xml-http-request/docs/**/*.*
     - site-lisp/xml-http-request/src/**/*.*
   exclude:
-    - site-lisp/xml-http-request-scratch.l
     - site-lisp/xml-http-request/tests/*.*

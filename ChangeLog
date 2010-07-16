@@ -1,3 +1,8 @@
+2010-07-16  MIYAMUKO Katsuyuki
+
+	* (xhr-trace): Authrization Basic ヘッダもデバッグトレースに
+	表示するようにした
+
 2008-07-12  MIYAMUKO Katsuyuki
 
 	* xml-http-request 1.2.1 released!

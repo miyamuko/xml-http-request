@@ -4,7 +4,7 @@
 ;;;;
 ;;;; License:
 ;;;;
-;;;;   Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;;;;   Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
 ;;;;
 ;;;;   xml-http-request is released under an MIT license.
 ;;;;   See xml-http-request/docs/MIT-LICENSE for full license.
@@ -23,8 +23,12 @@
     (with-output-to-buffer (buffer (buffer-size buffer))
       (case method
         (:open
-         (format t "~A~%" (format-date-string "---- [%Y-%m-%d %H:%M:%S] ----"))
-         (format t "~A ~A~%~%" (car args) (cadr args)))
+         (multiple-value-bind (http-method uri async user password)
+             (values-list args)
+           (format t "~A~%" (format-date-string "---- [%Y-%m-%d %H:%M:%S] ----"))
+           (format t "~A ~A~%" http-method uri)
+           (when user
+             (format t "Authorization: Basic ~A~%" (si:base64-encode (format nil "~A:~A" user password))))))
         (:setRequestHeader
          (format t "~A: ~A~%" (car args) (cadr args)))
         (:send

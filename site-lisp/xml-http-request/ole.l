@@ -16,6 +16,11 @@
 
 (in-package :xml-http-request)
 
+(defconstant +winhttp-progid-list+
+  '("WinHttp.WinHttpRequest.5.1"
+    "WinHttp.WinHttpRequest.5"
+    ))
+
 (defconstant +xhr-server-progid-list+
   '("Msxml2.ServerXMLHTTP"
     "Microsoft.ServerXMLHTTP"
@@ -26,24 +31,41 @@
     "Microsoft.XMLHTTP"
     ))
 
+(defvar *xhr-ole-create-object-hook* nil)
 (defvar *xhr-ole-method-hook* nil)
 (defvar *xhr-ole-getprop-hook* nil)
 
 (defmacro make-xmlhttp (&rest args) `(list ,@args))
 (defmacro xmlhttp-oledata (xmlhttp) `(car ,xmlhttp))
 (defmacro xmlhttp-progid (xmlhttp) `(cadr ,xmlhttp))
-(defmacro xmlhttp-server-p (xmlhttp) `(caddr ,xmlhttp))
+(defmacro xmlhttp-winhttp-p (xmlhttp) `(caddr ,xmlhttp))
 
+(defun create-xmlhttp (&key progid)
+  (check-type progid (or symbol string))
+  (multiple-value-bind (progid-list winhttp-p)
+      (cond ((or (null progid)
+                 (string-equal progid "xmlhttp"))
+             (values +xhr-client-progid-list+ nil))
+            ((string-equal progid "serverxmlhttp")
+             (values +xhr-server-progid-list+ t))
+            ((string-equal progid "winhttp")
+             (values +winhttp-progid-list+ t))
+            (t
+             (plain-error "progidが不正です `~A': 有効な引数は (or :winhttp :serverxmlhttp :xmlhttp) です" progid)))
+    (make-xmlhttp (or (try-create-object progid-list)
+                      (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
+                  progid winhttp-p)))
 
-(defun create-xmlhttp (&key server)
-  (labels ((try-theese (lst)
-             (when lst
-               (let ((progid (car lst)))
-                 (or (ignore-errors
-                      (make-xmlhttp (ole-create-object progid) progid (not (null server))))
-                     (try-theese (cdr lst)))))))
-    (or (try-theese (if server +xhr-server-progid-list+ +xhr-client-progid-list+))
-        (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません"))))
+(defun try-create-object (lst)
+  (when lst
+    (let ((progid (car lst)))
+      (or (ignore-errors (%ole-create-object progid))
+          (try-create-object (cdr lst))))))
+
+(defun %ole-create-object (progid)
+  (let ((obj (ole-create-object progid)))
+    (run-hook-with-args '*xhr-ole-create-object-hook* obj progid)
+    obj))
 
 
 (defmacro hide-stacktrace (&body body)

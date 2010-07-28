@@ -45,8 +45,8 @@
            (req-args (if data '(url data) '(url)))
            (req-args2 (if data '(url data) '(url nil)))
            (key-args (if data
-                         '(basic-auth nomsg key since headers encoding)
-                       '(basic-auth nomsg key since headers query encoding))))
+                         '(basic-auth nomsg key progid since headers encoding)
+                       '(basic-auth nomsg key progid since headers query encoding))))
       `(progn
          (defun ,sync (,@req-args &key ,@key-args)
            (xhr-request ,method ,@req-args2
@@ -78,15 +78,15 @@
             `(export '(,sync ,future ,async ,with-async)))
          ))))
 
-(defun xhr-request (method url data &key basic-auth nomsg key since headers query encoding)
-  (xhr-do-request method url data basic-auth nomsg key since headers query encoding))
+(defun xhr-request (method url data &key basic-auth nomsg key progid since headers query encoding)
+  (xhr-do-request method url data basic-auth nomsg key progid since headers query encoding))
 
-(defun xhr-request-future (method url data &key basic-auth nomsg key since headers query encoding)
-  (xhr-do-request method url data basic-auth nomsg key since headers query encoding
+(defun xhr-request-future (method url data &key basic-auth nomsg key progid since headers query encoding)
+  (xhr-do-request method url data basic-auth nomsg key progid since headers query encoding
                   :future t))
 
 (defun xhr-request-async (method url data
-                                 &key basic-auth nomsg key since headers query encoding
+                                 &key basic-auth nomsg key progid since headers query encoding
                                  handler onsuccess onfailure oncomplete)
   (let ((handler (to-alist handler)))
     (flet ((h (k v)
@@ -95,17 +95,18 @@
       (h :success onsuccess)
       (h :failure onfailure)
       (h :complete oncomplete)
-      (xhr-do-request method url data basic-auth nomsg key since headers query encoding
+      (xhr-do-request method url data basic-auth nomsg key progid since headers query encoding
                       :async t
                       :async-handler handler))))
 
 (defmacro with-xhr-request-async ((method url data
-                                          &key basic-auth nomsg key since headers query encoding)
+                                          &key basic-auth nomsg key progid since headers query encoding)
                                   &body handler)
   `(xhr-request-async ,method ,url ,data
                       :basic-auth ,basic-auth
                       :nomsg ,nomsg
                       :key ,key
+                      :progid ,progid
                       :since ,since
                       :headers ,headers
                       :query ,query
@@ -114,14 +115,14 @@
 (setf (get 'with-xhr-request-async 'ed::lisp-indent-hook) 1)
 
 
-(defun xhr-do-request (method url data basic-auth nomsg key since headers query encoding
+(defun xhr-do-request (method url data basic-auth nomsg key progid since headers query encoding
                               &key future async async-handler)
   (let ((req (make-http-request
               :uri (add-query-params url query :encoding encoding)
               :method (format nil "~:@(~A~)" method)
               :header-hash (make-request-header headers (not (null data)) since)
               :data (url-encode data :encoding encoding)
-              :xmlhttp (create-xmlhttp)))
+              :xmlhttp (create-xmlhttp :progid progid)))
         (key (or key 'identity)))
     (flet ((send! ()
              (greeting req :nomsg nomsg)

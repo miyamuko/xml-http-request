@@ -1,3 +1,28 @@
+2010-07-28  MIYAMUKO Katsuyuki
+
+	* (xhr-get, xhr-head, xhr-post, xhr-request,
+	   xhr-get-async, xhr-head-async, xhr-post-async, xhr-request-async,
+	   with-xhr-get-async, with-xhr-head-async, with-xhr-post-async, with-xhr-request-async):
+	   progid 引数を指定できるようにした。
+
+	* (create-xmlhttp): progid 引数によって作成する XMLHTTP オブジェクトを
+	  変更可能なようにした。
+	  - :winhttp       => "WinHttp.WinHttpRequest.5.1"
+	  - :serverxmlhttp => "Msxml2.ServerXMLHTTP"
+	  - :xmlhttp       => "Msxml2.XMLHTTP"
+	  - デフォルト (未指定) は :xmlhttp として扱う
+	  - :winhttp と :serverxmlhttp
+	    - WinHTTP ベース
+	    - IE のプロクシ設定やログイン状態は共有しない
+	  - :xmlhttp
+	    - WinInet ベース
+	    - IE のプロクシ設定やログイン状態を共有する
+	  - 似ているようで結構違うので注意が必要
+	    - ServerXMLHTTP に関してよく寄せられる質問 (FAQ)
+	      http://support.microsoft.com/kb/290761/ja
+
+	* (+winhttp-progid-list+): WinHTTP オブジェクトの progid
+
 2010-07-16  MIYAMUKO Katsuyuki
 
 	* (xhr-trace): Authrization Basic ヘッダもデバッグトレースに

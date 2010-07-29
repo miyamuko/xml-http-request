@@ -13,34 +13,76 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (require "xml-http-request/package")
   (require "xml-http-request/ole")
+  (require "xml-http-request/request")
   )
 
 (in-package :xml-http-request)
 
-(defun xhr-trace (oledata method &rest args)
-  (let ((buffer (get-buffer-create "*xhr:debug*")))
-    (setup-temp-buffer buffer)
-    (with-output-to-buffer (buffer (buffer-size buffer))
-      (case method
-        (:open
-         (multiple-value-bind (http-method uri async user password)
-             (values-list args)
-           (format t "~A~%" (format-date-string "---- [%Y-%m-%d %H:%M:%S] ----"))
-           (format t "~A ~A~%" http-method uri)
-           (when user
-             (format t "Authorization: Basic ~A~%" (si:base64-encode (format nil "~A:~A" user password))))))
-        (:setRequestHeader
-         (format t "~A: ~A~%" (car args) (cadr args)))
-        (:send
-         (if (and (car args) (< 0 (length (car args))))
-             (format t "~%~A~%~%" (car args))
-           (format t "~%")))))))
+(defmacro with-trace-buffer (&rest body)
+  `(let ((buffer (get-buffer-create "*xhr:debug*")))
+     (setup-temp-buffer buffer)
+     (with-output-to-buffer (buffer (buffer-size buffer))
+       ,@body)))
+(setf (get 'with-trace-buffer 'ed:lisp-indent-hook) 'with-output-to-buffer)
+
+(defmacro puts (&rest args)
+  `(progn
+     (format t ,@args)
+     (terpri)
+     ))
+
+(defun puts-header (title)
+  (puts "")
+  (puts "#### ~A ~A ##############################"
+        (format-date-string "[%Y-%m-%d %H:%M:%S]") title))
+
+(defun xhr-trace-create-object (oledata progid)
+  (with-trace-buffer
+    (puts-header "Initialize")
+    (puts "Create ~A object" progid)))
+
+(defun xhr-trace-method (oledata method &rest args)
+  (with-trace-buffer
+    (case method
+      (:open
+       (multiple-value-bind (http-method uri async user password)
+           (values-list args)
+         (puts-header "Request")
+         (puts "~A ~A HTTP/1.0" http-method uri)
+         (when user
+           (puts "Authorization: Basic ~A" (si:base64-encode (format nil "~A:~A" user password))))))
+      (:setRequestHeader
+       (puts "~A: ~A" (car args) (cadr args)))
+      (:send
+       (when (and (car args) (< 0 (length (car args))))
+         (puts "")
+         (puts "~A" (car args)))
+       (puts "")))))
+
+(defun xhr-trace-response (xhr)
+  (with-trace-buffer
+    (puts-header "Response")
+    (puts "HTTP/1.0 ~A ~A" (xhr-status xhr) (xhr-status-text xhr))
+    (dolist (h (xhr-all-response-header-alist xhr))
+      (puts "~A: ~A" (car h) (cdr h)))
+    (puts "")
+    (puts (xhr-response-text xhr))))
 
 (defun enable-trace ()
-  (add-hook '*xhr-ole-method-hook* 'xhr-trace))
+  (interactive)
+  (add-hook '*xhr-ole-method-hook* 'xhr-trace-method)
+  (add-hook '*xhr-ole-create-object-hook* 'xhr-trace-create-object)
+  (add-hook '*xhr-response-hook* 'xhr-trace-response)
+  (message "XHR Trace: On")
+  )
 
 (defun disable-trace ()
-  (delete-hook '*xhr-ole-method-hook* 'xhr-trace))
+  (interactive)
+  (delete-hook '*xhr-ole-method-hook* 'xhr-trace-method)
+  (delete-hook '*xhr-ole-create-object-hook* 'xhr-trace-create-object)
+  (delete-hook '*xhr-response-hook* 'xhr-trace-response)
+  (message "XHR Trace: Off")
+  )
 
 
 (provide "xml-http-request/debug")

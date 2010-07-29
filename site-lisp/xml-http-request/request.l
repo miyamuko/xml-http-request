@@ -142,7 +142,9 @@
             (t
              (send!)
              (greeting req :done t :nomsg nomsg)
-             (funcall key (http-request->response req)))
+             (let ((res (http-request->response req)))
+               (run-hook-with-args '*xhr-response-hook* res)
+               (funcall key res)))
             ))))
 
 (defun xhr-open (req async basic-auth)

@@ -1,5 +1,14 @@
 2010-07-29  MIYAMUKO Katsuyuki
 
+	* (debug.l, request.l, dispatcher.l): 作成した COM オブジェクトの ProgId と
+	レスポンスの内容をトレースログに出力するようにした。
+	Usage:
+	  M-x load-library で xml-http-request/debug を読み込み
+	  M-x xhr::enable-trace でトレースログ有効化
+	  M-x xhr::disable-trace でトレースログ無効化
+	リクエストヘッダは勝手に追加されるものがあるので、実際に送信される
+	リクエストとは違う場合があるので注意。
+
 	* バージョンを 1.3.0 に更新
 
 2010-07-28  MIYAMUKO Katsuyuki

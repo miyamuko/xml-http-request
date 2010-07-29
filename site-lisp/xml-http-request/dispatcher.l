@@ -4,7 +4,7 @@
 ;;;;
 ;;;; License:
 ;;;;
-;;;;   Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;;;;   Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
 ;;;;
 ;;;;   xml-http-request is released under an MIT license.
 ;;;;   See xml-http-request/docs/MIT-LICENSE for full license.
@@ -20,6 +20,8 @@
 
 ;; XMLHttpRequest の onreadystatechange を使う方法が良く分からないので
 ;; ポーリングして監視。
+
+(defvar *xhr-response-hook* nil)
 
 (defvar *event-dispatch-interval* 0.1
   "xml-http-request: 非同期通信の終了を監視する間隔 (秒)")
@@ -52,6 +54,7 @@
         (setf *request-queue* (remove e *request-queue*))
         (let ((res (http-request->response req)))
           (greeting req :done t :nomsg nomsg)
+          (run-hook-with-args *xhr-response-hook* res)
           (let ((events (list (xhr-status res)
                               (if (response-success-p res) :success :failure)
                               :complete)))

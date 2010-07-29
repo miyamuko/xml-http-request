@@ -1,3 +1,7 @@
+2010-07-29  MIYAMUKO Katsuyuki
+
+	* バージョンを 1.3.0 に更新
+
 2010-07-28  MIYAMUKO Katsuyuki
 
 	* (xhr-get, xhr-head, xhr-post, xhr-request,

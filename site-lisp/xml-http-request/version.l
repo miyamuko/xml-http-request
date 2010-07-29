@@ -4,7 +4,7 @@
 ;;;;
 ;;;; License:
 ;;;;
-;;;;   Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;;;;   Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
 ;;;;
 ;;;;   xml-http-request is released under an MIT license.
 ;;;;   See xml-http-request/docs/MIT-LICENSE for full license.
@@ -19,7 +19,7 @@
 (export '(xml-http-request-version
           ))
 
-(defconstant +xml-http-request-version+ "1.2.1")
+(defconstant +xml-http-request-version+ "1.3.0")
 
 (defun xml-http-request-version ()
   +xml-http-request-version+)

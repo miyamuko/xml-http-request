@@ -31,6 +31,10 @@
     "Microsoft.XMLHTTP"
     ))
 
+;; http://msdn.microsoft.com/en-us/library/aa384058(VS.85).aspx
+(defconstant +HTTPREQUEST-SETCREDENTIALS-FOR-SERVER+  0)
+(defconstant +HTTPREQUEST-SETCREDENTIALS-FOR-PROXY+ 1)
+
 (defvar *xhr-ole-create-object-hook* nil)
 (defvar *xhr-ole-method-hook* nil)
 (defvar *xhr-ole-getprop-hook* nil)
@@ -38,23 +42,22 @@
 (defmacro make-xmlhttp (&rest args) `(list ,@args))
 (defmacro xmlhttp-oledata (xmlhttp) `(car ,xmlhttp))
 (defmacro xmlhttp-progid (xmlhttp) `(cadr ,xmlhttp))
-(defmacro xmlhttp-winhttp-p (xmlhttp) `(caddr ,xmlhttp))
 
 (defun create-xmlhttp (&key progid)
   (check-type progid (or symbol string))
-  (multiple-value-bind (progid-list winhttp-p)
+  (multiple-value-bind (progid-list progid)
       (cond ((or (null progid)
                  (string-equal progid "xmlhttp"))
-             (values +xhr-client-progid-list+ nil))
+             (values +xhr-client-progid-list+ :xmlhttp))
             ((string-equal progid "serverxmlhttp")
-             (values +xhr-server-progid-list+ t))
+             (values +xhr-server-progid-list+ :serverxmlhttp))
             ((string-equal progid "winhttp")
-             (values +winhttp-progid-list+ t))
+             (values +winhttp-progid-list+ :winhttp))
             (t
              (plain-error "progidが不正です `~A': 有効な引数は (or :winhttp :serverxmlhttp :xmlhttp) です" progid)))
     (make-xmlhttp (or (try-create-object progid-list)
                       (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
-                  progid winhttp-p)))
+                  progid)))
 
 (defun try-create-object (lst)
   (when lst
@@ -102,6 +105,13 @@
 
 (defun %set-request-header (oledata header value)
   (%ole-method oledata :setRequestHeader header value))
+
+(defun %set-credentials (oledata basic-auth flags)
+  (when basic-auth
+    (multiple-value-bind (user password)
+        (xhr-credential-values basic-auth)
+      (hide-stacktrace
+       (%ole-method oledata :setCredentials user password flags)))))
 
 (defun %get-all-response-headers (oledata)
   (%ole-method oledata :getAllResponseHeaders))

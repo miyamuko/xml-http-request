@@ -148,11 +148,24 @@
             ))))
 
 (defun xhr-open (req async basic-auth)
-  (%open (coerce-oledata req)
-         (http-request-method req)
-         (http-request-uri req)
-         (not (null async))
-         basic-auth))
+  (case (xmlhttp-progid (http-request-xmlhttp req))
+    (:winhttp
+     ;; WinHttp.WinHttpRequest
+     (%open (coerce-oledata req)
+            (http-request-method req)
+            (http-request-uri req)
+            (not (null async)))
+     (%set-credentials (coerce-oledata req)
+                       basic-auth
+                       +HTTPREQUEST-SETCREDENTIALS-FOR-SERVER+)
+     )
+    (t
+     ;; Msxml2.ServerXMLHTTP or Msxml2.XMLHTTP
+     (%open (coerce-oledata req)
+            (http-request-method req)
+            (http-request-uri req)
+            (not (null async))
+            basic-auth))))
 
 (defun xhr-send (req)
   (handler-case

@@ -1,6 +1,20 @@
+2010-08-06  MIYAMUKO Katsuyuki
+
+	* debug.l (xhr-trace-method, puts-basicauth): WinHTTP の setCredentials を
+	デバッグログに記録するようにした
+
+	* request.l (xhr-open): WinHTTP オブジェクトの Basic 認証に対応
+
+	* ole.l (xmlhttp-winhttp-p): ServerXMLHTTP はインターフェイスは 
+	XMLHTTP と同じだが中身は WinHTTP。
+	中身が winhttp かどうかだけで判断するのは中途半端なので削除。
+
+	* ole.l (%set-credentials): IWinHttpRequest::SetCredentials のラッパー
+	http://msdn.microsoft.com/en-us/library/aa384058(VS.85).aspx
+
 2010-07-29  MIYAMUKO Katsuyuki
 
-	* (debug.l, request.l, dispatcher.l): 作成した COM オブジェクトの ProgId と
+	* debug.l, request.l, dispatcher.l: 作成した COM オブジェクトの ProgId と
 	レスポンスの内容をトレースログに出力するようにした。
 	Usage:
 	  M-x load-library で xml-http-request/debug を読み込み

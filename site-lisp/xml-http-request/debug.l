@@ -36,6 +36,9 @@
   (puts "#### ~A ~A ##############################"
         (format-date-string "[%Y-%m-%d %H:%M:%S]") title))
 
+(defun puts-basicauth (user password)
+  (puts "Authorization: Basic ~A" (remove #\LFD (si:base64-encode (format nil "~A:~A" user password)))))
+
 (defun xhr-trace-create-object (oledata progid)
   (with-trace-buffer
     (puts-header "Initialize")
@@ -50,7 +53,9 @@
          (puts-header "Request")
          (puts "~A ~A HTTP/1.0" http-method uri)
          (when user
-           (puts "Authorization: Basic ~A" (si:base64-encode (format nil "~A:~A" user password))))))
+           (puts-basicauth user password))))
+      (:setCredentials
+       (puts-basicauth (car args) (cadr args)))
       (:setRequestHeader
        (puts "~A: ~A" (car args) (cadr args)))
       (:send

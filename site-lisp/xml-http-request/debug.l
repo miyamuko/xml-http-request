@@ -71,7 +71,7 @@
     (dolist (h (xhr-all-response-header-alist xhr))
       (puts "~A: ~A" (car h) (cdr h)))
     (puts "")
-    (puts (xhr-response-text xhr))))
+    (puts "~A" (xhr-response-text xhr))))
 
 (defun enable-trace ()
   (interactive)

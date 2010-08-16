@@ -1,5 +1,9 @@
 2010-08-16  MIYAMUKO Katsuyuki
 
+	* WinHttpRequest は readyState を実装していないので
+	WaitForResponse で通信の完了を検出するようにした。
+	http://msdn.microsoft.com/en-us/library/aa384064(v=VS.85).aspx
+
 	* request.l (xhr-abort): まったく動作していなかったのを直した
 
 2010-08-06  MIYAMUKO Katsuyuki

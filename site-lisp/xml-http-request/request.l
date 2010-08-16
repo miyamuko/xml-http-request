@@ -180,9 +180,9 @@
                  :msg (format nil "URL ‚ª’·‚·‚¬‚Ü‚· (~A•¶Žš)" (length uri))))))))
 
 (defun xhr-abort (req-or-future)
-  (unless (xhr-ready-state-complete-p req-or-future)
+  (unless (xhr-request-complete-p req-or-future)
     (%abort (coerce-oledata req-or-future))
-    (xhr-ready-state-uninitialized-p req-or-future)))
+    t))
 
 
 (define-xhr-request-method "get" :exports t)

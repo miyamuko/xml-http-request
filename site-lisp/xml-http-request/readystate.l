@@ -4,7 +4,7 @@
 ;;;;
 ;;;; License:
 ;;;;
-;;;;   Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;;;;   Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
 ;;;;
 ;;;;   xml-http-request is released under an MIT license.
 ;;;;   See xml-http-request/docs/MIT-LICENSE for full license.
@@ -32,6 +32,15 @@
 
 (defun xhr-ready-state (transport)
   (%ready-state (coerce-oledata transport)))
+
+(defun xhr-request-complete-p (res)
+  (let ((xmlhttp (http-response-xmlhttp res)))
+    (case (xmlhttp-progid xmlhttp)
+      ;; WinHTTPRequest ‚Í readyState ‚ðŽÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
+      (:winhttp
+       (%wait-for-response (xmlhttp-oledata xmlhttp) 0))
+      (t
+       (xhr-ready-state-complete-p (xmlhttp-oledata xmlhttp))))))
 
 
 (provide "xml-http-request/readystate")

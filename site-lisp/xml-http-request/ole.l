@@ -119,6 +119,9 @@
 (defun %get-response-header (oledata header)
   (%ole-method oledata :getResponseHeader header))
 
+(defun %wait-for-response (oledata timeout)
+  (%ole-method oledata :waitForResponse timeout))
+
 
 (defun %ready-state (oledata)
   (%ole-getprop oledata :readyState))

@@ -50,7 +50,7 @@
   (dolist (e (copy-list *request-queue*))
     (multiple-value-bind (req key handler nomsg)
         (values-list e)
-      (when (xhr-ready-state-complete-p req)
+      (when (xhr-request-complete-p req)
         (setf *request-queue* (remove e *request-queue*))
         (let ((res (http-request->response req)))
           (greeting req :done t :nomsg nomsg)

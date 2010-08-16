@@ -179,7 +179,7 @@
           (error 'xhr-too-long-url-error
                  :msg (format nil "URL ‚ª’·‚·‚¬‚Ü‚· (~A•¶Žš)" (length uri))))))))
 
-(defun xhr-abort (transport)
+(defun xhr-abort (req-or-future)
   (unless (xhr-ready-state-complete-p req-or-future)
     (%abort (coerce-oledata req-or-future))
     (xhr-ready-state-uninitialized-p req-or-future)))

@@ -1,3 +1,7 @@
+2010-08-16  MIYAMUKO Katsuyuki
+
+	* request.l (xhr-abort): まったく動作していなかったのを直した
+
 2010-08-06  MIYAMUKO Katsuyuki
 
 	* debug.l (xhr-trace-method, puts-basicauth): WinHTTP の setCredentials を

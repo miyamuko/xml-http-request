@@ -50,25 +50,40 @@
   (dolist (e (copy-list *request-queue*))
     (multiple-value-bind (req key handler nomsg)
         (values-list e)
-      (when (xhr-request-complete-p req)
-        (setf *request-queue* (remove e *request-queue*))
-        (let ((res (http-request->response req)))
-          (greeting req :done t :nomsg nomsg)
-          (run-hook-with-args *xhr-response-hook* res)
-          (let ((events (list (xhr-status res)
-                              (if (response-success-p res) :success :failure)
-                              :complete)))
-            (dolist (event events)
-              (fire-event handler event key res)))))))
+      (handler-case
+          (when (xhr-request-complete-p req)
+            (setf *request-queue* (remove e *request-queue*))
+            (let ((res (http-request->response req)))
+              (greeting req :done t :nomsg nomsg)
+              (run-hook-with-args *xhr-response-hook* res)
+              (let ((events (list (xhr-status res)
+                                  (if (response-success-p res) :success :failure)
+                                  :complete)))
+                (dolist (event events)
+                  (fire-event handler event key res)))))
+        (error (c)
+          (errbox req c "xml-http-request 内でエラーが発生しました")
+          (setf *request-queue* (remove e *request-queue*))))))
   (when (endp *request-queue*)
     (stop-dispatcher)))
 
 (defun fire-event (handler-alist event key res)
   (let ((handler (cdr (assoc event handler-alist))))
     (when handler
-      (ignore-errors
-       (apply handler (multiple-value-list
-                       (funcall (or key 'identity) res)))))))
+      (handler-case
+          (apply handler (multiple-value-list
+                          (funcall (or key 'identity) res)))
+        (error (c)
+          (errbox res c "~Aハンドラの実行中にエラーが発生しました" event)
+          )))))
+
+(defun errbox (transport c fmt &rest args)
+  (message-box (format nil "~?~%URL: ~A~%~%~A: ~A"
+                       fmt args
+                       (http-transport-uri transport)
+                       (si:*structure-definition-name (si:*structure-definition c))
+                       (si:*condition-string c))
+               nil '(:exclamation)))
 
 (defun start-dispatcher (interval)
   (start-timer interval 'xhr-event-dispatch))

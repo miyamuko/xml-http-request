@@ -55,7 +55,7 @@
             (setf *request-queue* (remove e *request-queue*))
             (let ((res (http-request->response req)))
               (greeting req :done t :nomsg nomsg)
-              (run-hook-with-args *xhr-response-hook* res)
+              (run-hook-with-args '*xhr-response-hook* res)
               (let ((events (list (xhr-status res)
                                   (if (response-success-p res) :success :failure)
                                   :complete)))

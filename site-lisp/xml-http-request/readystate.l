@@ -16,6 +16,9 @@
 
 (in-package :xml-http-request)
 
+(export '(xhr-request-complete-p
+          ))
+
 (defmacro define-ready-state (name value)
   (let ((const (intern (format nil "xhr-ready-state-~A" name)))
         (fun (intern (format nil "xhr-ready-state-~A-p" name))))

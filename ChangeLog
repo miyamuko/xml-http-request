@@ -1,3 +1,8 @@
+2010-09-29  MIYAMUKO Katsuyuki
+
+	* readystate.l (xhr-request-complete-p): リクエストが完了したか
+	どうかを返す関数を export
+
 2010-08-16  MIYAMUKO Katsuyuki
 
 	* dispatcher.l (xhr-event-dispatch): 非同期 API のイベントハンドラ内で

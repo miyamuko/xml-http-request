@@ -36,8 +36,8 @@
 (defun xhr-ready-state (transport)
   (%ready-state (coerce-oledata transport)))
 
-(defun xhr-request-complete-p (res)
-  (let ((xmlhttp (http-response-xmlhttp res)))
+(defun xhr-request-complete-p (transport)
+  (let ((xmlhttp (http-transport-xmlhttp transport)))
     (case (xmlhttp-progid xmlhttp)
       ;; WinHTTPRequest ‚Í readyState ‚ðŽÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
       (:winhttp

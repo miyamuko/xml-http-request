@@ -22,6 +22,7 @@
 ;; ポーリングして監視。
 
 (defvar *xhr-response-hook* nil)
+(defvar *xhr-abort-hook* nil)
 
 (defvar *event-dispatch-interval* 0.1
   "xml-http-request: 非同期通信の終了を監視する間隔 (秒)")
@@ -53,7 +54,8 @@
       (handler-case
           (cond ((xhr-request-aborted-p req)
                  (setf *request-queue* (remove e *request-queue*))
-                 (greeting req :abort t :nomsg nomsg))
+                 (greeting req :abort t :nomsg nomsg)
+                 (run-hook-with-args '*xhr-abort-hook* req))
                 ((xhr-request-completed-p req)
                  (setf *request-queue* (remove e *request-queue*))
                  (let ((res (http-request->response req)))

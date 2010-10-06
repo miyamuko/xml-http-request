@@ -18,6 +18,9 @@
 
 (in-package :xml-http-request)
 
+(defstruct xmlhttp
+  oledata progid aborted-p)
+
 (defstruct http-transport
   uri xmlhttp)
 

@@ -39,10 +39,6 @@
 (defvar *xhr-ole-method-hook* nil)
 (defvar *xhr-ole-getprop-hook* nil)
 
-(defmacro make-xmlhttp (&rest args) `(list ,@args))
-(defmacro xmlhttp-oledata (xmlhttp) `(car ,xmlhttp))
-(defmacro xmlhttp-progid (xmlhttp) `(cadr ,xmlhttp))
-
 (defun create-xmlhttp (&key progid)
   (check-type progid (or symbol string))
   (multiple-value-bind (progid-list progid)
@@ -55,9 +51,9 @@
              (values +winhttp-progid-list+ :winhttp))
             (t
              (plain-error "progidが不正です `~A': 有効な引数は (or :winhttp :serverxmlhttp :xmlhttp) です" progid)))
-    (make-xmlhttp (or (try-create-object progid-list)
-                      (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
-                  progid)))
+    (make-xmlhttp :oledata (or (try-create-object progid-list)
+                               (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
+                  :progid progid)))
 
 (defun try-create-object (lst)
   (when lst

@@ -16,14 +16,17 @@
 
 (in-package :xml-http-request)
 
-(defun greeting (req &key done nomsg)
+(defun greeting (req &key abort done nomsg)
   (when nomsg
     (return-from greeting nil))
   (let ((uri (http-transport-uri req))
         (method (http-request-method req)))
-    (if done
-        (message "Done ~A" uri)
-      (message "~A ~A ..." method uri))))
+    (cond (abort
+           (message "Abort ~A" uri))
+          (done
+           (message "Done ~A" uri))
+          (t
+           (message "~A ~A ..." method uri)))))
 
 
 (provide "xml-http-request/greeting")

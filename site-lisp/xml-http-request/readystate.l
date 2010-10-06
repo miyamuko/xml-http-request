@@ -16,7 +16,9 @@
 
 (in-package :xml-http-request)
 
-(export '(xhr-request-complete-p
+(export '(xhr-request-completed-p
+          xhr-request-aborted-p
+          xhr-request-waiting-p
           ))
 
 (defmacro define-ready-state (name value)
@@ -36,14 +38,26 @@
 (defun xhr-ready-state (transport)
   (%ready-state (coerce-oledata transport)))
 
-(defun xhr-request-complete-p (transport)
+;; request ‚ªŠ®—¹‚µ‚½ê‡‚É t ‚ğ•Ô‚· (abort ‚µ‚½ê‡‚Í nil)
+(defun xhr-request-completed-p (transport)
   (let ((xmlhttp (http-transport-xmlhttp transport)))
-    (case (xmlhttp-progid xmlhttp)
-      ;; WinHTTPRequest ‚Í readyState ‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
-      (:winhttp
-       (%wait-for-response (xmlhttp-oledata xmlhttp) 0))
-      (t
-       (xhr-ready-state-complete-p (xmlhttp-oledata xmlhttp))))))
+    (unless (xhr-request-aborted-p transport)
+      (case (xmlhttp-progid xmlhttp)
+        ;; WinHTTPRequest ‚Í readyState ‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
+        (:winhttp
+         (%wait-for-response (xmlhttp-oledata xmlhttp) 0))
+        (t
+         (xhr-ready-state-complete-p (xmlhttp-oledata xmlhttp)))))))
+
+;; request ‚ª abort ‚µ‚½ê‡‚É t ‚ğ•Ô‚·
+(defun xhr-request-aborted-p (transport)
+  (let ((xmlhttp (http-transport-xmlhttp transport)))
+    (xmlhttp-aborted-p xmlhttp)))
+
+;; request ‚ªˆ—’†‚È‚ç t ‚ğ•Ô‚·
+(defun xhr-request-waiting-p (transport)
+  (and (not (xhr-request-aborted-p transport))
+       (not (xhr-request-completed-p transport))))
 
 
 (provide "xml-http-request/readystate")

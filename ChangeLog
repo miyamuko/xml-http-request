@@ -1,3 +1,9 @@
+2010-10-06  MIYAMUKO Katsuyuki
+
+	* readystate.l (xhr-request-waiting-p): リクエスト中なら t を返す
+
+	* readystate.l (xhr-request-aborted-p): リクエストをアボートしたなら t を返す
+
 2010-09-29  MIYAMUKO Katsuyuki
 
 	* readystate.l (xhr-request-complete-p): リクエストが完了したか

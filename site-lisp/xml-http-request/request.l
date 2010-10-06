@@ -180,9 +180,12 @@
                  :msg (format nil "URL ‚ª’·‚·‚¬‚Ü‚· (~A•¶Žš)" (length uri))))))))
 
 (defun xhr-abort (req-or-future)
-  (unless (xhr-request-complete-p req-or-future)
-    (%abort (coerce-oledata req-or-future))
-    t))
+  (when (and (not (xhr-request-completed-p req-or-future))
+             (not (xhr-request-aborted-p req-or-future)))
+    (let ((xmlhttp (http-transport-xmlhttp req-or-future)))
+      (setf (xmlhttp-aborted-p xmlhttp) t)
+      (%abort (xmlhttp-oledata xmlhttp))
+      t)))
 
 
 (define-xhr-request-method "get" :exports t)

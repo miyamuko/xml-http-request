@@ -48,7 +48,7 @@
     (start-dispatcher *event-dispatch-interval*)))
 
 (defun xhr-event-dispatch ()
-  (dolist (e (copy-list *request-queue*))
+  (dolist (e (reverse *request-queue*))
     (multiple-value-bind (req key handler nomsg)
         (values-list e)
       (handler-case

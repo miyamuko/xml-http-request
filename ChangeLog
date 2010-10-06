@@ -1,5 +1,8 @@
 2010-10-06  MIYAMUKO Katsuyuki
 
+	* dispatcher.l (xhr-event-dispatch): リクエストした順にコールバック
+	を呼ぶようにした
+
 	* readystate.l (xhr-request-waiting-p): リクエスト中なら t を返す
 
 	* readystate.l (xhr-request-aborted-p): リクエストをアボートしたなら t を返す

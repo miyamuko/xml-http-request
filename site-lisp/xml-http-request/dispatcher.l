@@ -44,8 +44,7 @@
 
 (defun register-handler (req key handler nomsg)
   (pushnew (list req key handler nomsg) *request-queue*)
-  (when (= 1 (length *request-queue*))
-    (start-dispatcher *event-dispatch-interval*)))
+  (dispatch-later))
 
 (defun xhr-event-dispatch ()
   (dolist (e (reverse *request-queue*))
@@ -69,8 +68,8 @@
         (error (c)
           (errbox req c "xml-http-request “à‚ÅƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½")
           (setf *request-queue* (remove e *request-queue*))))))
-  (when (endp *request-queue*)
-    (stop-dispatcher)))
+  (when *request-queue*
+    (dispatch-later)))
 
 (defun fire-event (handler-alist event key res)
   (let ((handler (cdr (assoc event handler-alist))))
@@ -91,11 +90,8 @@
                        transport)
                nil '(:exclamation)))
 
-(defun start-dispatcher (interval)
-  (start-timer interval 'xhr-event-dispatch))
-
-(defun stop-dispatcher ()
-  (stop-timer 'xhr-event-dispatch))
+(defun dispatch-later (&optional (interval *event-dispatch-interval*))
+  (start-timer interval 'xhr-event-dispatch t))
 
 
 (provide "xml-http-request/dispatcher")

@@ -1,5 +1,8 @@
 2011-07-28  MIYAMUKO Katsuyuki
 
+	* dispatcher.l (xhr-event-dispatch): やっぱり、発生したエラーは
+	ダイアログじゃなくてメッセージ領域と *Trace Output* で通知するようにした
+
 	* dispatcher.l (dispatch-later): *request-queue* に値が入った状態で
 	ダンプした場合でも、イベントディスパッチタイマーが動くようにした (#1)
 	https://github.com/miyamuko/xml-http-request/issues/1

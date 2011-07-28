@@ -66,7 +66,7 @@
                      (dolist (event events)
                        (fire-event handler event key res))))))
         (error (c)
-          (errbox req c "xml-http-request 内でエラーが発生しました")
+          (process-error req c "xml-http-request 内でエラーが発生しました")
           (setf *request-queue* (remove e *request-queue*))))))
   (when *request-queue*
     (dispatch-later)))
@@ -78,17 +78,18 @@
           (apply handler (multiple-value-list
                           (funcall (or key 'identity) res)))
         (error (c)
-          (errbox res c "~Aハンドラの実行中にエラーが発生しました" event)
+          (process-error res c "~Aハンドラの実行中にエラーが発生しました" event)
           )))))
 
-(defun errbox (transport c fmt &rest args)
-  (message-box (format nil "~?~%URL: ~A~%~%~A: ~A~%~S"
-                       fmt args
-                       (http-transport-uri transport)
-                       (si:*structure-definition-name (si:*structure-definition c))
-                       (si:*condition-string c)
-                       transport)
-               nil '(:exclamation)))
+(defun process-error (transport c fmt &rest args)
+  (let ((msg (format nil "~?~%URL: ~A~%~%~A: ~A~%~S"
+                     fmt args
+                     (http-transport-uri transport)
+                     (si:*structure-definition-name (si:*structure-definition c))
+                     (si:*condition-string c)
+                     transport)))
+    (message msg)
+    (warn msg)))
 
 (defun dispatch-later (&optional (interval *event-dispatch-interval*))
   (start-timer interval 'xhr-event-dispatch t))

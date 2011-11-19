@@ -35,7 +35,9 @@ xml-http-request 1.2.0 リリース!
 
     Basic 認証のためのユーザ情報とパスワードを指定します。
 
-          (xhr-get "http://foo.com" :basic-auth (xhr-credential "user" "password"))
+    ```lisp
+    (xhr-get "http://foo.com" :basic-auth (xhr-credential "user" "password"))
+    ```
 
 #### 非互換を含む変更点
 
@@ -50,7 +52,9 @@ xml-http-request 1.2.0 リリース!
   * 接続する URL の userinfo に認証情報を指定しても無視される問題を修正
     (楓月さんによる報告)
 
-          (xhr-get "http://user:password@foo.com")
+    ```lisp
+    (xhr-get "http://user:password@foo.com")
+    ```
 
     ※ basic-auth 引数を指定した場合は URL の userinfo は無視されます。
 

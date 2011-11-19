@@ -9,7 +9,7 @@ sources:
     - site-lisp/xml-http-request/**/examples/*.l
 
 document:
-  - site-lisp/xml-http-request/docs/README.rd
+  - README.md
 
 files:
   include:

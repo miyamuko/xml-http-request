@@ -1,5 +1,11 @@
 2011-11-20  MIYAMUKO Katsuyuki
 
+	* dispatcher.l (xhr-event-dispatch): abort した場合に onabort イベントハンドラ
+	を呼ぶようにした
+
+	* request.l (xhr-get-async, xhr-head-async, xhr-post-async, xhr-request-async):
+	onabort イベントハンドラを指定できるようにした
+
 	* readystate.l (xhr-request-completed-p): abort した場合でも t を返すようにした
 
 	* dispatcher.l (process-error): メッセージ領域に通知するエラーメッセージを改善

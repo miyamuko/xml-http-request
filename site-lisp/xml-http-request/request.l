@@ -73,12 +73,13 @@
                                ,@(keyword-args key-args)
                                ))
 
-         (defun ,async (,@req-args &key ,@key-args onsuccess onfailure oncomplete handler)
+         (defun ,async (,@req-args &key ,@key-args onsuccess onfailure oncomplete onabort handler)
            (xhr-request-async ,method ,@req-args2
                               :handler handler
                               :onsuccess onsuccess
                               :onfailure onfailure
                               :oncomplete oncomplete
+                              :onabort onabort
                                ,@(keyword-args key-args)
                                ))
 
@@ -102,7 +103,7 @@
 
 (defun xhr-request-async (method url data
                                  &key basic-auth nomsg key progid since headers query encoding
-                                 handler onsuccess onfailure oncomplete)
+                                 handler onsuccess onfailure oncomplete onabort)
   (let ((handler (to-alist handler)))
     (flet ((h (k v)
              (when v
@@ -110,6 +111,7 @@
       (h :success onsuccess)
       (h :failure onfailure)
       (h :complete oncomplete)
+      (h :abort onabort)
       (xhr-do-request method url data basic-auth nomsg key progid since headers query encoding
                       :async t
                       :async-handler handler))))

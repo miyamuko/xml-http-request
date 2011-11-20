@@ -97,14 +97,15 @@
           )))))
 
 (defun process-error (transport c fmt &rest args)
-  (let ((msg (format nil "~?~%URL: ~A~%~%~A: ~A~%~S"
+  (let ((msg (format nil "~?~%~A: ~A~%URL: ~A~%~S"
                      fmt args
-                     (http-transport-uri transport)
                      (si:*structure-definition-name (si:*structure-definition c))
                      (si:*condition-string c)
-                     transport)))
-    (message msg)
-    (warn msg)))
+                     (http-transport-uri transport)
+                     transport
+                     )))
+    (warn msg)
+    (message (substitute-string msg "\n" ": "))))
 
 (defun dispatch-later (&optional (interval *event-dispatch-interval*))
   (start-timer interval 'xhr-event-dispatch t))

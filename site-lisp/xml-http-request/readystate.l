@@ -2,7 +2,7 @@
 
 ;;; xml-http-request/readystate.l
 ;;
-;; Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
+;; Copyright (c) 2008,2010-2011 MIYAMUKO Katsuyuki.
 ;;
 ;; Permission is hereby granted, free of charge, to any person obtaining
 ;; a copy of this software and associated documentation files (the
@@ -53,16 +53,16 @@
 (defun xhr-ready-state (transport)
   (%ready-state (coerce-oledata transport)))
 
-;; request ‚ªŠ®—¹‚µ‚½ê‡‚É t ‚ğ•Ô‚· (abort ‚µ‚½ê‡‚Í nil)
+;; request ‚ªŠ®—¹‚µ‚½ê‡‚É t ‚ğ•Ô‚· (abort ‚µ‚½ê‡‚à t)
 (defun xhr-request-completed-p (transport)
-  (let ((xmlhttp (http-transport-xmlhttp transport)))
-    (unless (xhr-request-aborted-p transport)
-      (case (xmlhttp-progid xmlhttp)
-        ;; WinHTTPRequest ‚Í readyState ‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
-        (:winhttp
-         (%wait-for-response (xmlhttp-oledata xmlhttp) 0))
-        (t
-         (xhr-ready-state-complete-p (xmlhttp-oledata xmlhttp)))))))
+  (or (xhr-request-aborted-p transport)
+      (let ((xmlhttp (http-transport-xmlhttp transport)))
+        (case (xmlhttp-progid xmlhttp)
+          ;; WinHTTPRequest ‚Í readyState ‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢‚Ì‚Å WaitForResponse ‚Å”»’è
+          (:winhttp
+           (%wait-for-response (xmlhttp-oledata xmlhttp) 0))
+          (t
+           (xhr-ready-state-complete-p (xmlhttp-oledata xmlhttp)))))))
 
 ;; request ‚ª abort ‚µ‚½ê‡‚É t ‚ğ•Ô‚·
 (defun xhr-request-aborted-p (transport)
@@ -71,8 +71,7 @@
 
 ;; request ‚ªˆ—’†‚È‚ç t ‚ğ•Ô‚·
 (defun xhr-request-waiting-p (transport)
-  (and (not (xhr-request-aborted-p transport))
-       (not (xhr-request-completed-p transport))))
+  (not (xhr-request-completed-p transport)))
 
 
 (provide "xml-http-request/readystate")

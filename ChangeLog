@@ -1,5 +1,7 @@
 2011-11-20  MIYAMUKO Katsuyuki
 
+	* readystate.l (xhr-request-completed-p): abort した場合でも t を返すようにした
+
 	* dispatcher.l (process-error): メッセージ領域に通知するエラーメッセージを改善
 
 2011-07-28  MIYAMUKO Katsuyuki

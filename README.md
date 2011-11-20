@@ -208,7 +208,7 @@ get が終了するまでブロックしレスポンスオブジェクトを返�
 
 なお、X-Yzzy-Version というヘッダが必ず送信されます (値は xyzzy のバージョン)。
 
-#### <a name="xhr-get-async"> xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
+#### <a name="xhr-get-async"> xhr-get-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE ONABORT HANDLER
 
 指定された `URL` のリソースを get します。
 
@@ -236,10 +236,11 @@ get が終了すると指定された callback を呼び出します。
     ```
 
 
-  * イベントハンドラは `ONSUCCESS`, `ONFAILURE`, `ONCOMPLETE`, `HANDLER` で指定します。
+  * イベントハンドラは `ONSUCCESS`, `ONFAILURE`, `ONCOMPLETE`, `ONABORT`, `HANDLER` で指定します。
     - `ONSUCCESS`: 正常終了 (http status が 20x) した場合に呼ばれます。
     - `ONFAILURE`: 異常終了 (http status が 20x 以外) した場合に呼ばれます。
     - `ONCOMPLETE`: 通信終了後に常に呼ばれます。`ONSUCCESS`, `ONFAILURE` より後に呼ばれます。
+    - `ONABORT`: 通信を abort した場合に呼ばれます。abort した場合、`ONSUCCESS`, `ONFAILURE`, `ONCOMPLETE` は呼ばれません。
     - `HANDLER`: HTTP ステータスごとにイベントハンドラを実行したい場合は `HANDLER` で指定します。
 
       ```lisp
@@ -251,6 +252,9 @@ get が終了すると指定された callback を呼び出します。
                                      (msgbox "~D ~A"
                                              (xhr-status res)
                                              (xhr-status-text res)))
+                     :onabort #'(lambda (req)
+                                  (msgbox "abort しました: ~A"
+                                          (xhr-requested-uri req)))
                      :handler (list
                                200 #'(lambda (res) (msgbox "OK"))
                                304 #'(lambda (res) (msgbox "not modified"))
@@ -299,7 +303,7 @@ API を呼び出すとすぐに制御を返し、Future オブジェクトを返
 
 詳細は [xhr-get](#xhr-get) を参照してください。
 
-#### <a name="xhr-head-async"> xhr-head-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
+#### <a name="xhr-head-async"> xhr-head-async URL &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING ONSUCCESS ONFAILURE ONCOMPLETE ONABORT HANDLER
 
 指定された `URL` に HEAD リクエストを非同期に送信します。
 
@@ -352,7 +356,7 @@ API を呼び出すとすぐに制御を返し、Future オブジェクトを返
 
 その他の引数および戻り値は [xhr-get](#xhr-get) と同じです。
 
-#### <a name="xhr-post-async"> xhr-post-async URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING ONSUCCESS ONFAILURE ONCOMPLETE HANDLER
+#### <a name="xhr-post-async"> xhr-post-async URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS ENCODING ONSUCCESS ONFAILURE ONCOMPLETE ONABORT HANDLER
 
 指定された `URL` に `DATA` を非同期に POST します。
 
@@ -384,7 +388,7 @@ API を呼び出すとすぐに制御を返し、Future オブジェクトを返
 ;=> ("GET" "HEAD" "OPTIONS" "POST")
 ```
 
-#### <a name="xhr-request-async"> xhr-request-async METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING HANDLER ONSUCCESS ONFAILURE ONCOMPLETE
+#### <a name="xhr-request-async"> xhr-request-async METHOD URL DATA &KEY BASIC-AUTH NOMSG KEY SINCE HEADERS QUERY ENCODING HANDLER ONSUCCESS ONFAILURE ONCOMPLETE ONABORT
 
 指定された `URL` に `METHOD` を非同期に送信します。
 
@@ -526,6 +530,44 @@ HTTP status の文字列表現を取得します。
       (xhr-abort future)
       (plain-error "timeout"))
     v))
+```
+
+#### <a name="xhr-request-waiting-p"> xhr-request-waiting-p TRANSPORT
+
+指定したリクエストがまだ処理中なら t を返します。
+
+引数には Future オブジェクト (xhr-xxx-future の戻り値)、
+キャンセルオブジェクト (xhr-xxx-async の戻り値) を指定可能です。
+
+#### <a name="xhr-request-complete-p"> xhr-request-complete-p TRANSPORT
+
+指定したリクエストが完了したなら t を返します。
+
+  * リクエストを [abort した場合](#xhr-abort) でも t を返します。
+  * リクエストが完了したか abort したかは、[xhr-request-aborted-p](#xhr-request-aborted-p) で区別します。
+
+引数には Future オブジェクト (xhr-xxx-future の戻り値)、
+キャンセルオブジェクト (xhr-xxx-async の戻り値) を指定可能です。
+
+#### <a name="xhr-request-aborted-p"> xhr-request-aborted-p TRANSPORT
+
+リクエストを [abort した場合](#xhr-abort) t を返します。
+
+引数には Future オブジェクト (xhr-xxx-future の戻り値)、
+キャンセルオブジェクト (xhr-xxx-async の戻り値) を指定可能です。
+
+```lisp
+(let ((req (xhr:xhr-get-async "http://www.google.co.jp"
+                              :oncomplete #'(lambda (res) (msgbox "complete: ~S" req))
+                              :onabort #'(lambda (req) (msgbox "abort: ~S" req))
+                              )))
+  (xhr:xhr-abort req)
+  (list
+   (xhr:xhr-request-waiting-p req)
+   (xhr:xhr-request-completed-p req)
+   (xhr:xhr-request-aborted-p req)
+   ))
+;=> (nil t t)
 ```
 
 #### <a name="xhr-credential"> xhr-credential USER PASSWORD

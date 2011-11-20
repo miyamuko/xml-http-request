@@ -2,6 +2,50 @@
 
 ---
 
+### 2011-11-20 / 1.3.0
+
+xml-http-request 1.3.0 リリース!
+
+#### 新規機能
+
+  * `xhr-request-waiting-p`: リクエスト中なら t を返す
+  * `xhr-request-complete-p`: リクエストが完了なら t を返す (abort した場合も t)
+  * `xhr-request-aborted-p`: リクエストを abort したなら t を返す
+
+    ```lisp
+    (let ((f (xhr:xhr-get-async "http://www.google.co.jp"
+                                :oncomplete #'(lambda (res) (msgbox "~S" res)))))
+      (xhr:xhr-abort f)
+      (list
+       (xhr:xhr-request-waiting-p f)
+       (xhr:xhr-request-completed-p f)
+       (xhr:xhr-request-aborted-p f)
+       ))
+    ;=> (nil t t)
+    ```
+
+  * `xhr-get-async`, `xhr-head-async`, `xhr-post-async`, `xhr-request-async`:
+    xhr-abort で中断した場合に呼ばれる onabort イベントハンドラを追加
+
+#### 非互換を含む変更点
+
+  * なし
+
+#### バグ修正
+
+  * 非同期 API のイベントハンドラ内で発生したエラーは
+    メッセージ領域と `*Trace Output*` で通知するようにした
+  * `*request-queue*` に値が入った状態でダンプした場合でも、
+    イベントディスパッチタイマーが動くようにした (#1)
+  * リクエストした順にコールバックを呼ぶようにした
+  * `xhr-abort`: まったく動作していなかったのを直した
+
+#### その他
+
+  * なし
+
+---
+
 ### 2008-07-12 / 1.2.1
 
 xml-http-request 1.2.1 リリース!

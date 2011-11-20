@@ -1,5 +1,7 @@
 2011-11-20  MIYAMUKO Katsuyuki
 
+	* xml-http-request 1.3.0 released!
+
 	* dispatcher.l (xhr-event-dispatch): abort した場合に onabort イベントハンドラ
 	を呼ぶようにした
 

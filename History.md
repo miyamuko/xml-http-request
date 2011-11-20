@@ -9,17 +9,19 @@ xml-http-request 1.3.0 リリース!
 #### 新規機能
 
   * `xhr-request-waiting-p`: リクエスト中なら t を返す
-  * `xhr-request-complete-p`: リクエストが完了なら t を返す (abort した場合も t)
+  * `xhr-request-complete-p`: リクエストが完了したなら t を返す (abort した場合も t)
   * `xhr-request-aborted-p`: リクエストを abort したなら t を返す
 
     ```lisp
-    (let ((f (xhr:xhr-get-async "http://www.google.co.jp"
-                                :oncomplete #'(lambda (res) (msgbox "~S" res)))))
-      (xhr:xhr-abort f)
+    (let ((req (xhr:xhr-get-async "http://www.google.co.jp"
+                                  :oncomplete #'(lambda (res) (msgbox "complete: ~S" req))
+                                  :onabort #'(lambda (req) (msgbox "abort: ~S" req))
+                                  )))
+      (xhr:xhr-abort req)
       (list
-       (xhr:xhr-request-waiting-p f)
-       (xhr:xhr-request-completed-p f)
-       (xhr:xhr-request-aborted-p f)
+       (xhr:xhr-request-waiting-p req)
+       (xhr:xhr-request-completed-p req)
+       (xhr:xhr-request-aborted-p req)
        ))
     ;=> (nil t t)
     ```

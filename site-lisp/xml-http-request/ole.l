@@ -31,50 +31,90 @@
 
 (in-package :xml-http-request)
 
-(defconstant +winhttp-progid-list+
-  '("WinHttp.WinHttpRequest.5.1"
-    "WinHttp.WinHttpRequest.5"
-    ))
-
-(defconstant +xhr-server-progid-list+
-  '("Msxml2.ServerXMLHTTP"
-    "Microsoft.ServerXMLHTTP"
-    ))
-
-(defconstant +xhr-client-progid-list+
-  '("Msxml2.XMLHTTP"
-    "Microsoft.XMLHTTP"
-    ))
-
 ;; http://msdn.microsoft.com/en-us/library/aa384058(VS.85).aspx
 (defconstant +HTTPREQUEST-SETCREDENTIALS-FOR-SERVER+  0)
 (defconstant +HTTPREQUEST-SETCREDENTIALS-FOR-PROXY+ 1)
+
+(defparameter *progid-alist*
+  '((:xmlhttp "Msxml2.XMLHTTP" "Microsoft.XMLHTTP")
+    (:serverxmlhttp "Msxml2.ServerXMLHTTP" "Microsoft.ServerXMLHTTP")
+    (:winhttp "WinHttp.WinHttpRequest.5.1" "WinHttp.WinHttpRequest.5")))
+
+(defparameter *default-progid* :xmlhttp)
 
 (defvar *xhr-ole-create-object-hook* nil)
 (defvar *xhr-ole-method-hook* nil)
 (defvar *xhr-ole-getprop-hook* nil)
 
 (defun create-xmlhttp (&key progid)
-  (check-type progid (or symbol string))
   (multiple-value-bind (progid-list progid)
-      (cond ((or (null progid)
-                 (string-equal progid "xmlhttp"))
-             (values +xhr-client-progid-list+ :xmlhttp))
-            ((string-equal progid "serverxmlhttp")
-             (values +xhr-server-progid-list+ :serverxmlhttp))
-            ((string-equal progid "winhttp")
-             (values +winhttp-progid-list+ :winhttp))
-            (t
-             (plain-error "progidが不正です `~A': 有効な引数は (or :winhttp :serverxmlhttp :xmlhttp) です" progid)))
-    (make-xmlhttp :oledata (or (try-create-object progid-list)
-                               (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
-                  :progid progid)))
+      (make-progid-list progid)
+    (multiple-value-bind (oledata progid-class)
+        (try-create-object progid-list)
+      (unless oledata
+        (plain-error "この環境では XMLHttpRequest オブジェクトを利用できません: ~S" progid-list))
+      (make-xmlhttp :oledata oledata :progid progid :progid-class progid-class ))))
+
+(defun make-progid-list (progid-spec)
+  (check-type progid-spec (or symbol string list))
+  (cond ((null progid-spec)
+         ;; progid 指定なし (デフォルト利用)
+         ;; :progid nil
+         (make-progid-list *default-progid*))
+        ((listp progid-spec)
+         ;; バージョン指定
+         ;; :progid '(:serverxmlhttp . 6.0)
+         ;; :progid '(:serverxmlhttp 6.0)
+         ;; :progid '(:serverxmlhttp 6.0 7.0)
+         ;; :progid '("Msxml2.ServerXMLHTTP" 6.0)
+         (let ((versions (cdr progid-spec)))
+           (unless versions
+             (return-from make-progid-list (make-progid-list (car progid-spec))))
+           (multiple-value-bind (progid-list type)
+               (make-progid-list (car progid-spec))
+             (when (atom versions)
+               (setf versions (list versions)))
+             (values (remove-duplicates
+                      (mapcan #'(lambda (progid)
+                                  (let ((base-progid (substitute-string progid "\\(\\.[0-9]\\)*$" "")))
+                                    (mapcar #'(lambda (version)
+                                                (format nil "~A.~A" base-progid version))
+                                            versions)))
+                              progid-list)
+                      :test #'string-equal)
+                     type))))
+        ((symbolp progid-spec)
+         ;; キーワード指定
+         ;; :progid :serverxmlhttp
+         (let ((alist (assoc progid-spec *progid-alist* :test #'string-equal)))
+           (unless alist
+             (plain-error "progidが不正です `~A': 有効な引数は (or :winhttp :serverxmlhttp :xmlhttp) です"
+                          progid-spec))
+           (values (cdr alist)
+                   (car alist))))
+        ((stringp progid-spec)
+         ;; クラス名直接指定
+         ;; :progid "Msxml2.ServerXMLHTTP.6.0"
+         (values (list progid-spec)
+                 (progid-type progid-spec)))
+        ))
+
+(defun progid-type (progid)
+  (cond ((string-matchp "WinHttp" progid)
+         :winhttp)
+        ((string-matchp "ServerXMLHTTP" progid)
+         :serverxmlhttp)
+        (t
+         :xmlhttp)))
 
 (defun try-create-object (lst)
   (when lst
     (let ((progid (car lst)))
-      (or (ignore-errors (%ole-create-object progid))
-          (try-create-object (cdr lst))))))
+       (handler-case
+           (values (%ole-create-object progid)
+                   progid)
+         (error (_)
+           (try-create-object (cdr lst)))))))
 
 (defun %ole-create-object (progid)
   (let ((obj (ole-create-object progid)))

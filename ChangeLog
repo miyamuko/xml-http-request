@@ -1,5 +1,15 @@
 2011-12-19  MIYAMUKO Katsuyuki
 
+	* (create-xmlhttp): progid 引数で XMLHTTP オブジェクトのバージョンを
+	指定できるようにした (#4)
+	(xhr:xhr-get "http://atnd.org/events/22889.rss"
+	             :key #'xhr:xhr-response-xml
+	             :progid '(:xmlhttp 6.0))
+	(xhr:xhr-get "http://atnd.org/events/22889.rss"
+	             :key #'xhr:xhr-response-xml
+	             :progid "Msxml2.XMLHTTP.6.0")
+	https://github.com/miyamuko/xml-http-request/issues/4
+
 	* (parse-raw-header): Foo:Bar というセパレータ後に空白を含まない形式の
 	ヘッダを解析できていなかったのを修正
 

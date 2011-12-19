@@ -34,7 +34,7 @@
 (in-package :xml-http-request)
 
 (defstruct xmlhttp
-  oledata progid aborted-p)
+  oledata progid progid-class aborted-p)
 
 (defstruct http-transport
   uri xmlhttp)

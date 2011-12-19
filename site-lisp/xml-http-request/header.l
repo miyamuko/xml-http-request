@@ -2,7 +2,7 @@
 
 ;;; xml-http-request/header.l
 ;;
-;; Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;; Copyright (c) 2008,2011 MIYAMUKO Katsuyuki.
 ;;
 ;; Permission is hereby granted, free of charge, to any person obtaining
 ;; a copy of this software and associated documentation files (the
@@ -69,14 +69,18 @@
 
 
 (defun parse-raw-header (raw-header)
-  (mapcar #'split-field (split-header raw-header)))
+  (remove-if #'null (mapcar #'split-field (split-header raw-header))))
 
 (defun split-header (raw-header)
-  (split-string (substitute-string raw-header "\r\n\\|\r\\|\n" "\n") #\LFD))
+  (when raw-header
+    (split-string (substitute-string raw-header "\r\n\\|\r\\|\n" "\n") #\LFD)))
 
 (defun split-field (header)
-  (when (string-matchp "^\\([^:]+\\): +\\(.+\\)$" header)
-    (cons (match-string 1) (match-string 2))))
+  (when (and header (string-matchp "^\\([^:]+\\): *\\(.+\\)$" header))
+    (cons (strip (match-string 1)) (strip (match-string 2)))))
+
+(defun strip (str)
+  (string-trim " \t\r\n\f" str))
 
 
 (provide "xml-http-request/header")

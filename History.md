@@ -2,6 +2,36 @@
 
 ---
 
+### 2012-01-10 / 1.3.1
+
+xml-http-request 1.3.1 リリース!
+
+#### 新規機能
+
+  * progid 引数で XMLHTTP オブジェクトのバージョンを指定できるようにした (#4)
+
+    ```lisp
+    (xhr:xhr-get "http://atnd.org/events/22889.rss"
+                 :key #'xhr:xhr-response-xml
+                 :progid '(:xmlhttp 6.0))
+    (xhr:xhr-get "http://atnd.org/events/22889.rss"
+                 :key #'xhr:xhr-response-xml
+                 :progid "Msxml2.XMLHTTP.6.0")
+    ```
+
+#### 非互換を含む変更点
+
+  * なし
+
+#### バグ修正
+
+  * Foo:Bar というセパレータ後に空白を含まない形式のヘッダを
+    解析できていなかったのを修正
+
+#### その他
+
+  * なし
+
 ### 2011-11-20 / 1.3.0
 
 xml-http-request 1.3.0 リリース!

@@ -1,3 +1,7 @@
+2012-01-10  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.3.1 released!
+
 2011-12-19  MIYAMUKO Katsuyuki
 
 	* (create-xmlhttp): progid 引数で XMLHTTP オブジェクトのバージョンを

@@ -5,8 +5,7 @@ sources:
   include:
     - site-lisp/xml-http-request/**/*.l
   exclude:
-    - site-lisp/xml-http-request/**/tests/*.l
-    - site-lisp/xml-http-request/**/examples/*.l
+    - site-lisp/xml-http-request/**/test/*.l
 
 document:
   - README.md
@@ -15,10 +14,3 @@ files:
   include:
     - site-lisp/**/*.l
     - site-lisp/**/*.lc
-    - site-lisp/xml-http-request/lib/*.dll
-    - site-lisp/xml-http-request/examples/**/*.*
-    - site-lisp/xml-http-request/docs/**/*
-    - site-lisp/xml-http-request/docs/**/*.*
-    - site-lisp/xml-http-request/src/**/*.*
-  exclude:
-    - site-lisp/xml-http-request/tests/*.*

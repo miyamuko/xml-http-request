@@ -743,7 +743,7 @@ on の中身はクロージャに変換されるので以下のようなこと�
 
 xml-http-request は MIT/X ライセンスに基づいて利用可能です。
 
-    Copyright (c) 2006,2008,2010-2011 MIYAMUKO Katsuyuki.
+    Copyright (c) 2006,2008,2010-2012 MIYAMUKO Katsuyuki.
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the

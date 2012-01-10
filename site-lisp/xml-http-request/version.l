@@ -2,7 +2,7 @@
 
 ;;; xml-http-request/version.l
 ;;
-;; Copyright (c) 2008,2010 MIYAMUKO Katsuyuki.
+;; Copyright (c) 2008,2010-2012 MIYAMUKO Katsuyuki.
 ;;
 ;; Permission is hereby granted, free of charge, to any person obtaining
 ;; a copy of this software and associated documentation files (the

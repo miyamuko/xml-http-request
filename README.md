@@ -514,12 +514,23 @@ HTTP status の文字列表現を取得します。
 
 #### <a name="xhr-abort"> xhr-abort TRANSPORT
 
-指定したリクエストを停止します。
+指定したリクエストを中断します。
 
 引数には Future オブジェクト (xhr-xxx-future の戻り値)、
 キャンセルオブジェクト (xhr-xxx-async の戻り値) を指定可能です。
 
 通信を中断したなら t を返します。
+中断後は以下の関数は常に nil を返します。
+
+  * [xhr-status](#xhr-status)
+  * [xhr-status-text](#xhr-status-text)
+  * [xhr-response-header](#xhr-response-header)
+  * [xhr-all-response-header](#xhr-all-response-header)
+  * [xhr-all-response-header-hash](#xhr-all-response-header-hash)
+  * [xhr-all-response-header-alist](#xhr-all-response-header-alist)
+  * [xhr-response-text](#xhr-response-text)
+  * [xhr-response-xml](#xhr-response-xml)
+
 既に通信が終了していたら何もせず nil を返します。
 
 ```lisp

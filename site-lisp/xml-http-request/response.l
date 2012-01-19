@@ -2,7 +2,7 @@
 
 ;;; xml-http-request/response.l
 ;;
-;; Copyright (c) 2008 MIYAMUKO Katsuyuki.
+;; Copyright (c) 2008,2012 MIYAMUKO Katsuyuki.
 ;;
 ;; Permission is hereby granted, free of charge, to any person obtaining
 ;; a copy of this software and associated documentation files (the
@@ -49,13 +49,14 @@
 (defmacro fetch (res slot getter &key enclose)
   (with-gensyms (gres)
     `(let ((,gres ,res))
-       (if (http-response-p ,gres)
-           (,(if enclose 'funcall 'progn)
-            (or (,slot ,gres)
-                (setf (,slot ,gres)
-                      (,(if enclose 'enclose 'progn)
-                       (,getter (coerce-oledata ,gres))))))
-         (,getter (coerce-oledata ,gres))))))
+       (unless (xhr-request-aborted-p ,gres)
+         (if (http-response-p ,gres)
+             (,(if enclose 'funcall 'progn)
+              (or (,slot ,gres)
+                  (setf (,slot ,gres)
+                        (,(if enclose 'enclose 'progn)
+                         (,getter (coerce-oledata ,gres))))))
+           (,getter (coerce-oledata ,gres)))))))
 
 (defun xhr-response-values (res)
   (values
@@ -84,7 +85,9 @@
   (parse-raw-header (xhr-all-response-header res)))
 
 (defun xhr-response-header (res header)
-  (identity (gethash header (xhr-all-response-header-hash res))))
+  (let ((all (xhr-all-response-header-hash res)))
+    (when all
+      (identity (gethash header all)))))
 
 (defun xhr-response-text (res)
   (fetch res http-response-text %response-text :enclose t))

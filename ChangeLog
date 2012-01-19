@@ -1,3 +1,16 @@
+2012-01-19  MIYAMUKO Katsuyuki
+
+	* (fetch, xhr-response-header): xhr-abort でアボートした後は、
+	以下のメソッドは常に nil を返すようにした (#5)
+	- xhr-status
+	- xhr-status-text
+	- xhr-response-header
+	- xhr-all-response-header
+	- xhr-all-response-header-hash
+	- xhr-all-response-header-alist
+	- xhr-response-text
+	- xhr-response-xml
+
 2012-01-10  MIYAMUKO Katsuyuki
 
 	* xml-http-request 1.3.1 released!

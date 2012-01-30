@@ -1,3 +1,7 @@
+2012-01-30  MIYAMUKO Katsuyuki
+
+	* xml-http-request 1.3.2 released!
+
 2012-01-19  MIYAMUKO Katsuyuki
 
 	* (fetch, xhr-response-header): xhr-abort でアボートした後は、

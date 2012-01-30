@@ -2,6 +2,30 @@
 
 ---
 
+### 2012-01-30 / 1.3.2
+
+xml-http-request 1.3.2 リリース!
+
+#### 新規機能
+
+  * なし
+
+#### 非互換を含む変更点
+
+  * なし
+
+#### バグ修正
+
+  * xhr-(get|post)-async で :key に xhr-response-text とか指定してると
+    :onabort の起動時にこける問題を修正
+    (Reported by @youz)
+
+#### その他
+
+  * なし
+
+---
+
 ### 2012-01-10 / 1.3.1
 
 xml-http-request 1.3.1 リリース!

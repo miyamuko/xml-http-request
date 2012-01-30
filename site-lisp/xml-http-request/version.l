@@ -34,7 +34,7 @@
 (export '(xml-http-request-version
           ))
 
-(defconstant +xml-http-request-version+ "1.3.1")
+(defconstant +xml-http-request-version+ "1.3.2")
 
 (defun xml-http-request-version ()
   +xml-http-request-version+)

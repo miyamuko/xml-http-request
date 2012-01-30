@@ -1,7 +1,7 @@
 # xml-http-request - 非同期 HTTP 通信ライブラリ
 
 * Home URL: <http://miyamuko.s56.xrea.com/xyzzy/xml-http-request/intro.htm>
-* Version: 1.3.1
+* Version: 1.3.2
 
 ## SYNOPSIS
 

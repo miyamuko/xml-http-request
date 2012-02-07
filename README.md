@@ -733,7 +733,11 @@ on の中身はクロージャに変換されるので以下のようなこと�
 
   * サーバ側が charset を返さずかつ UTF-8 以外の場合は文字化けします。
 
-    <http://d.hatena.ne.jp/miyamuko/20050913#p1>
+    <http://d.hatena.ne.jp/miyamuko/20060619/p1>
+
+  * Msxml2.XMLHTTP.4.0 以降を利用する場合、データの末尾に余計な 0x00 が送信されます
+
+    <http://d.hatena.ne.jp/miyamuko/20080304/xyzzy_ole_method_bug>
 
   * 文字列は xyzzy 内部で Shift_JIS に変換されます。
 
